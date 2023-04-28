@@ -20,7 +20,7 @@ export const authApi = {
         return instance.delete<InfoResponseType>("/auth/me")
     },
     setNewPassword(data: NewPasswordType) {
-        return instance.post<InfoResponseType>("/auth/set-new-password",data)
+        return instance.post<InfoResponseType>("/auth/set-new-password", data)
     },
 }
 

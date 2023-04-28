@@ -1,14 +1,11 @@
-import React from 'react'
-import s from './Login/Login.module.scss'
+import React from "react"
+import s from "./Login/Login.module.scss"
 import { useForm } from "react-hook-form"
 import { Box, Button, Container, CssBaseline, Link, TextField, Typography } from "@mui/material"
-import { Copyright } from "src/common/components/Copyright"
+import { Copyright } from "common/components/Copyright"
 import { useActions } from "../../common/hooks/useActions"
 import { authThunks } from "./auth.slice"
-
-
-
-
+import { useNavigate } from "react-router-dom"
 
 type UseFormType = {
     email: string
@@ -18,7 +15,7 @@ export const ForgotPassword = () => {
 <a href="http://localhost:3000/#/set-new-password/$token$">link</a></div>`
 
     const { forgotPassword } = useActions(authThunks)
-
+    const navigate = useNavigate()
     const {
         register,
         formState: { errors, isDirty, isValid },
@@ -32,11 +29,13 @@ export const ForgotPassword = () => {
 
     const onSubmit = (data: UseFormType) => {
         console.log(data)
-        forgotPassword({ ...data, message: messageToEmail })
+        forgotPassword({ ...data, message: messageToEmail }).then((res) => {
+            navigate("/check-email")
+        })
     }
 
     return (
-      <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="xs">
             <CssBaseline />
             <Box
                 sx={{

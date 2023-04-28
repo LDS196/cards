@@ -1,6 +1,6 @@
 import React from "react"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
-import s from '../Login/Login.module.scss'
+import s from "../Login/Login.module.scss"
 import {
     Avatar,
     Box,

@@ -3,7 +3,6 @@ import { Box, Button, Container, CssBaseline, Link, TextField, Typography } from
 
 import EmailIcon from "@mui/icons-material/Email"
 
-
 const CheckEmail = () => {
     return (
         <Container component="main" maxWidth="xs">
@@ -21,12 +20,11 @@ const CheckEmail = () => {
                 </Typography>
                 <EmailIcon color={"primary"} />
                 <Typography align={"center"}>We've sent an Email with instructions to example@gmai.com</Typography>
-                <Link href={"/login"} >
+                <Link href={"/login"}>
                     <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                         Back to login
                     </Button>
                 </Link>
-
             </Box>
         </Container>
     )

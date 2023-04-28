@@ -3,10 +3,22 @@ import { Menu } from "@mui/icons-material"
 import { useSelector } from "react-redux"
 import { selectAppError } from "app/app.select"
 import StyleIcon from "@mui/icons-material/Style"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import React from "react"
+import { authThunks } from "features/auth/auth.slice"
+import { useActions } from "common/hooks/useActions"
+import { selectIsLoginIn } from "features/auth/auth.select"
 
 const Header = () => {
-    const loginHandler = () => {}
+    const isLoginIn = useSelector(selectIsLoginIn)
+
+    const navigate = useNavigate()
+    const { logout } = useActions(authThunks)
+    const logoutHandler = () => {
+        logout({})
+            .unwrap()
+            .then((res) => navigate("/login"))
+    }
 
     const isLoading = useSelector(selectAppError)
     return (
@@ -19,7 +31,13 @@ const Header = () => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         Cards
                     </Typography>
-                    <Link to={"/login"}>Login</Link>
+                    {isLoading ? (
+                        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
+                            Logout
+                        </Button>
+                    ) : (
+                        <Link to={"/login"}>Login</Link>
+                    )}
                 </Toolbar>
             </AppBar>
         </Box>

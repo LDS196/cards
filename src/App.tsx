@@ -1,58 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React, { useEffect } from "react"
+import "./App.css"
+import { Route, Routes } from "react-router-dom"
+
+import Register from "features/auth/Register/Register"
+import CheckEmail from "features/auth/CheckEmail"
+import SetNewPassword from "features/auth/SetNewPassword"
+import Profile from "features/Profile/Profile"
+import Packs from "features/Packs/Packs"
+import Cards from "features/Cards/Cards"
+import { useSelector } from "react-redux"
+import { selectAppError, selectIsAppInitialized } from "app/app.select"
+import { CircularProgress } from "@mui/material"
+import { Login } from "features/auth/Login/Login"
+import { ForgotPassword } from "features/auth/ForgotPassword"
+import Header from "common/components/Header"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+    const isLoading = useSelector(selectAppError)
+    const isAppInitialized = useSelector(selectIsAppInitialized)
+
+    // useEffect(() => {
+    //     initializeApp({});
+    // }, [])
+    //
+    // if (!isAppInitialized) {
+    //     return (
+    //         <div style={{ position: "fixed", top: "30%", textAlign: "center", width: "100%" }}>
+    //             <CircularProgress />
+    //         </div>
+    //     )
+    // }
+    return (
+        <div className="App">
+            <Header/>
+            <Routes>
+                <Route path={"/login"} element={<Login />} />
+                <Route path={"/register"} element={<Register />} />
+                <Route path={"/check-email"} element={<CheckEmail />} />
+                <Route path={"/set-new-password"} element={<SetNewPassword />} />
+                <Route path={"/forgot-password"} element={<ForgotPassword />} />
+                <Route path={"/profile"} element={<Profile />} />
+                <Route path={"/packs"} element={<Packs />} />
+                <Route path={"/cards"} element={<Cards />} />
+                <Route path={"/learn"} element={<div></div>} />
+                <Route path={"/404"} element={<div>404</div>} />
+            </Routes>
+        </div>
+    )
 }
 
-export default App;
+export default App

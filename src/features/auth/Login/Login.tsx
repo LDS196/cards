@@ -10,9 +10,9 @@ import {
     CssBaseline,
     FormControlLabel,
     Grid,
-    Link,
+    Link, Paper,
     TextField,
-    Typography,
+    Typography
 } from "@mui/material"
 
 import { useForm } from "react-hook-form"
@@ -48,6 +48,7 @@ export const Login = () => {
     }
     return (
         <Container component="main" maxWidth="xs">
+            <Paper elevation={3} style={{ padding: "10px" }}>
             <CssBaseline />
             <Box
                 sx={{
@@ -128,6 +129,7 @@ export const Login = () => {
                 </Box>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
+            </Paper>
         </Container>
     )
 }

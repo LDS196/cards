@@ -26,7 +26,7 @@ export const authApi = {
 
 export type NewPasswordType = {
     password: string
-    resetPasswordToken: string
+    resetPasswordToken: string| undefined
 }
 export type ChangeNameResponseType = {
     updatedUser: ProfileType

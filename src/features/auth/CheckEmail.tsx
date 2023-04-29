@@ -1,11 +1,12 @@
 import React from "react"
-import { Box, Button, Container, CssBaseline, Link, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, CssBaseline, Link, Paper, TextField, Typography } from "@mui/material"
 
 import EmailIcon from "@mui/icons-material/Email"
 
 const CheckEmail = () => {
     return (
         <Container component="main" maxWidth="xs">
+          <Paper elevation={3} style={{ padding: "10px" }}>
             <CssBaseline />
             <Box
                 sx={{
@@ -26,6 +27,7 @@ const CheckEmail = () => {
                     </Button>
                 </Link>
             </Box>
+          </Paper>
         </Container>
     )
 }

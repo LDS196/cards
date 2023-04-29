@@ -1,7 +1,7 @@
 import React from "react"
 import s from "./Login/Login.module.scss"
 import { useForm } from "react-hook-form"
-import { Box, Button, Container, CssBaseline, Link, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, CssBaseline, Link, Paper, TextField, Typography } from "@mui/material"
 import { Copyright } from "common/components/Copyright"
 import { useActions } from "../../common/hooks/useActions"
 import { authThunks } from "./auth.slice"
@@ -12,7 +12,7 @@ type UseFormType = {
 }
 export const ForgotPassword = () => {
     const messageToEmail = `<div style="background-color: lime; padding: 15px">password recovery link: 
-<a href="http://localhost:3000/#/set-new-password/$token$">link</a></div>`
+<a href="http://localhost:3000/set-new-password/$token$">link</a></div>`
 
     const { forgotPassword } = useActions(authThunks)
     const navigate = useNavigate()
@@ -28,15 +28,17 @@ export const ForgotPassword = () => {
     })
 
     const onSubmit = (data: UseFormType) => {
-        console.log(data)
         forgotPassword({ ...data, message: messageToEmail }).then((res) => {
             navigate("/check-email")
         })
     }
 
     return (
+
         <Container component="main" maxWidth="xs">
+          <Paper elevation={3} style={{ padding: "10px" }}>
             <CssBaseline />
+
             <Box
                 sx={{
                     marginTop: 8,
@@ -88,6 +90,8 @@ export const ForgotPassword = () => {
                 </Link>
             </Box>
             <Copyright sx={{ mt: 8, mb: 4 }} />
+          </Paper>
         </Container>
+
     )
 }

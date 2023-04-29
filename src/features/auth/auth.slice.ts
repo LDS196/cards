@@ -1,6 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
-import { authApi, LoginParamsType, ProfileType, RegisterParamsType, RegisterResponseType } from "features/auth/auth.api"
+import {
+  authApi,
+  LoginParamsType,
+  NewPasswordType,
+  ProfileType,
+  RegisterParamsType,
+  RegisterResponseType
+} from "features/auth/auth.api"
 import { ChangeEmailData, InfoResponseType } from "../auth/auth.api"
 import { appActions } from "app/app.slice"
 
@@ -65,6 +72,20 @@ const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(
         }
     }
 )
+const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
+  "app/forgotPassword",
+  async (arg, ThunkApi) => {
+    const { rejectWithValue } = ThunkApi
+    try {
+      const res = await authApi.setNewPassword(arg)
+    return res.data
+    } catch (e: any) {
+      console.log(e.response.data.error)
+
+      return rejectWithValue(e)
+    }
+  }
+)
 const slice = createSlice({
     name: "auth",
     initialState: {
@@ -76,6 +97,7 @@ const slice = createSlice({
         builder
             .addCase(login.fulfilled, (state, action) => {
                 state.profile = action.payload.profile
+              state.isLoginIn= action.payload.isLoginIn
             })
             .addCase(initializeApp.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
@@ -88,4 +110,4 @@ const slice = createSlice({
 })
 
 export const authReducer = slice.reducer
-export const authThunks = { forgotPassword, register, login, initializeApp, logout }
+export const authThunks = {setNewPassword, forgotPassword, register, login, initializeApp, logout }

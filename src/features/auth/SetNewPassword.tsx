@@ -1,7 +1,8 @@
 import React from "react"
 import { useForm } from "react-hook-form"
-import { Box, Button, Container, CssBaseline, TextField, Typography } from "@mui/material"
+import { Box, Button, Container, CssBaseline, Paper, TextField, Typography } from "@mui/material"
 import s from "./Login/Login.module.scss"
+import { useNavigate, useParams } from "react-router-dom"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 
@@ -9,6 +10,10 @@ type UseFormType = {
     password: string
 }
 const SetNewPassword = () => {
+    const navigate = useNavigate()
+    const { setNewPassword } = useActions(authThunks)
+    const params = useParams()
+
     const {
         register,
         formState: { errors, isDirty, isValid },
@@ -20,10 +25,14 @@ const SetNewPassword = () => {
         mode: "onChange",
     })
 
-    const onSubmit = (data: UseFormType) => console.log(data)
+    const onSubmit = async (data: UseFormType) => {
+        await setNewPassword({ ...data, resetPasswordToken: params.token })
+        navigate("/login")
+    }
 
     return (
         <Container component="main" maxWidth="xs">
+            <Paper elevation={3} style={{ padding: "10px" }}>
             <CssBaseline />
             <Box
                 sx={{
@@ -70,6 +79,7 @@ const SetNewPassword = () => {
                     </Button>
                 </Box>
             </Box>
+                </Paper>
         </Container>
     )
 }

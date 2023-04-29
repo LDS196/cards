@@ -7,7 +7,7 @@ import { useActions } from "common/hooks/useActions"
 import { useForm } from "react-hook-form"
 import { LoginParamsType, RegisterParamsType } from "features/auth/auth.api"
 
-import { Avatar, Box, Button, Container, CssBaseline, Grid, Link, TextField, Typography } from "@mui/material"
+import { Avatar, Box, Button, Container, CssBaseline, Grid, Link, Paper, TextField, Typography } from "@mui/material"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 import { selectProfile } from "features/Profile/profile.select"
 import { useNavigate } from "react-router-dom"
@@ -44,6 +44,7 @@ const Register = () => {
 
     return (
         <Container component="main" maxWidth="xs">
+            <Paper elevation={3} style={{ padding: "10px" }}>
             <CssBaseline />
             <Box
                 sx={{
@@ -134,6 +135,7 @@ const Register = () => {
                     </Grid>
                 </Box>
             </Box>
+                </Paper>
         </Container>
     )
 }

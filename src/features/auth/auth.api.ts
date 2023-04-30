@@ -1,4 +1,4 @@
-import { instance } from "../../common/api/common.api"
+import { instance } from "common/api/common.api"
 
 export const authApi = {
     register(data: RegisterParamsType) {
@@ -13,8 +13,8 @@ export const authApi = {
     forgotPassword(data: ChangeEmailData) {
         return instance.post<InfoResponseType>("/auth/forgot", data)
     },
-    changeProfileData(data: { name: string }) {
-        return instance.put<ChangeNameResponseType>("/auth/me", data)
+    changeProfileData(data: { name: string,avatar:string }) {
+        return instance.put<ChangeDataResponseType>("/auth/me", data)
     },
     logout() {
         return instance.delete<InfoResponseType>("/auth/me")
@@ -26,9 +26,9 @@ export const authApi = {
 
 export type NewPasswordType = {
     password: string
-    resetPasswordToken: string| undefined
+    resetPasswordToken: string | undefined
 }
-export type ChangeNameResponseType = {
+export type ChangeDataResponseType = {
     updatedUser: ProfileType
     errors: string
 }

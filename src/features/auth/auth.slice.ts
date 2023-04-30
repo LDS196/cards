@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import {
-  authApi,
+  authApi, ChangeDataResponseType,
   LoginParamsType,
   NewPasswordType,
   ProfileType,
@@ -27,7 +27,7 @@ const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
 const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, LoginParamsType>(
     "auth/register",
     async (arg, ThunkApi) => {
-        const { rejectWithValue, dispatch } = ThunkApi
+        const { rejectWithValue} = ThunkApi
         try {
             const res = await authApi.login(arg)
             return { profile: res.data, isLoginIn: true }
@@ -38,7 +38,7 @@ const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, 
     }
 )
 const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", async (_, ThunkApi) => {
-    const { rejectWithValue, dispatch } = ThunkApi
+    const { rejectWithValue,} = ThunkApi
     try {
         const res = await authApi.logout()
         return { isLoginIn: false }
@@ -73,18 +73,32 @@ const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(
     }
 )
 const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
-  "app/forgotPassword",
-  async (arg, ThunkApi) => {
-    const { rejectWithValue } = ThunkApi
-    try {
-      const res = await authApi.setNewPassword(arg)
-    return res.data
-    } catch (e: any) {
-      console.log(e.response.data.error)
+    "auth/forgotPassword",
+    async (arg, ThunkApi) => {
+        const { rejectWithValue } = ThunkApi
+        try {
+            const res = await authApi.setNewPassword(arg)
+            return res.data
+        } catch (e: any) {
+            console.log(e.response.data.error)
 
-      return rejectWithValue(e)
+            return rejectWithValue(e)
+        }
     }
-  }
+)
+const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name:string,avatar:string }>(
+    "auth/changeProfileData",
+    async (arg, ThunkApi) => {
+        const { rejectWithValue } = ThunkApi
+        try {
+            const res = await authApi.changeProfileData(arg)
+            return res.data
+        } catch (e: any) {
+            console.log(e.response.data.error)
+
+            return rejectWithValue(e)
+        }
+    }
 )
 const slice = createSlice({
     name: "auth",
@@ -97,17 +111,22 @@ const slice = createSlice({
         builder
             .addCase(login.fulfilled, (state, action) => {
                 state.profile = action.payload.profile
-              state.isLoginIn= action.payload.isLoginIn
+                state.isLoginIn = action.payload.isLoginIn
             })
             .addCase(initializeApp.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
             })
-            .addCase(forgotPassword.fulfilled, (state, action) => {})
+            .addCase(forgotPassword.fulfilled, (state, action) => {
+
+            })
             .addCase(logout.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
             })
+          .addCase(changeProfileData.fulfilled, (state, action) => {
+            state.profile = action.payload.updatedUser
+          })
     },
 })
 
 export const authReducer = slice.reducer
-export const authThunks = {setNewPassword, forgotPassword, register, login, initializeApp, logout }
+export const authThunks = { changeProfileData,setNewPassword, forgotPassword, register, login, initializeApp, logout }

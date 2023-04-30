@@ -7,13 +7,13 @@ const Packs = () => {
     const isLoginIn = useSelector(selectIsLoginIn)
     useEffect(() => {
         if (!isLoginIn) {
-            return;
+            return
         }
-       //fetch packs
-    }, []);
+        //fetch packs
+    }, [])
 
     if (!isLoginIn) {
-        return <Navigate to={"/login"} />;
+        return <Navigate to={"/login"} />
     }
     return <div>Packs</div>
 }

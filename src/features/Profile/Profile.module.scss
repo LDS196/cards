@@ -1,0 +1,26 @@
+.avatar {
+    width: 86px;
+    height: 86px;
+    position: relative;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.icon {
+    position: absolute;
+    right: -6px;
+    bottom: 7px;
+}
+.name {
+    padding: 10px 0 2px 10px;
+    border-bottom: 1px solid grey;
+
+}
+.changeName{
+    display: flex;
+    gap:  0 20px;
+}
+.goToPacks{
+    display: flex;
+    align-items: center;
+    gap: 0 10px;
+}

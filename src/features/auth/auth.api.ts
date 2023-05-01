@@ -2,25 +2,25 @@ import { instance } from "common/api/common.api"
 
 export const authApi = {
     register(data: RegisterParamsType) {
-        return instance.post<RegisterResponseType>("/auth/register", data)
+        return instance.post<RegisterResponseType>("auth/register", data)
     },
     login(data: LoginParamsType) {
-        return instance.post<ProfileType>("/auth/login", data)
+        return instance.post<ProfileType>("auth/login", data)
     },
     me() {
-        return instance.post<ProfileType>("/auth/me", {})
+        return instance.post<ProfileType>("auth/me", {})
     },
     forgotPassword(data: ChangeEmailData) {
-        return instance.post<InfoResponseType>("/auth/forgot", data)
+        return instance.post<InfoResponseType>("auth/forgot", data)
     },
     changeProfileData(data: { name: string,avatar:string }) {
-        return instance.put<ChangeDataResponseType>("/auth/me", data)
+        return instance.put<ChangeDataResponseType>("auth/me", data)
     },
     logout() {
-        return instance.delete<InfoResponseType>("/auth/me")
+        return instance.delete<InfoResponseType>("auth/me")
     },
     setNewPassword(data: NewPasswordType) {
-        return instance.post<InfoResponseType>("/auth/set-new-password", data)
+        return instance.post<InfoResponseType>("auth/set-new-password", data)
     },
 }
 

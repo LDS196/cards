@@ -63,11 +63,8 @@ const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(
         const { rejectWithValue } = ThunkApi
         try {
             const res = await authApi.forgotPassword(arg)
-            console.log(res.data)
             return res.data
         } catch (e: any) {
-            console.log(e.response.data.error)
-
             return rejectWithValue(e)
         }
     }
@@ -81,7 +78,6 @@ const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
             return res.data
         } catch (e: any) {
             console.log(e.response.data.error)
-
             return rejectWithValue(e)
         }
     }

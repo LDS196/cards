@@ -8,40 +8,40 @@ import { selectPacks } from "features/Packs/packs.selector"
 import { RootState } from "app/store"
 import { BasicTable } from "features/Packs/BasicTable"
 import { Paginator } from "common/components/Paginator/Paginator"
-import { Typography } from "@mui/material"
-
-
-
+import { Button, Typography } from "@mui/material"
+import s from "./Packs.module.scss"
+import { Search } from "common/components/Search/Search"
 
 const Packs = () => {
-    const pageCount = useSelector((state:RootState)=>state.packs.pageCount)
+    const pageCount = useSelector((state: RootState) => state.packs.pageCount)
     const packs = useSelector(selectPacks)
-    const cardPacksTotalCount = useSelector((state:RootState)=> state.packs.cardPacksTotalCount)
+    const cardPacksTotalCount = useSelector((state: RootState) => state.packs.cardPacksTotalCount)
     const { getPacks } = useActions(packsThunks)
 
     const isLoginIn = useSelector(selectIsLoginIn)
     useEffect(() => {
-        if (!isLoginIn) {
-            return
-        }
-        //fetch packs
-        getPacks({params:{ pageCount }})
-
+        if (!isLoginIn) return
+        getPacks({ params: { pageCount } })
     }, [])
 
     if (!isLoginIn) {
         return <Navigate to={"/login"} />
     }
-    return <div>
+    return (
         <div>
-            <Typography component="h1" variant="h5">
-                Pack List
-            </Typography>
+            <div className={s.block}>
+                <Typography component="h1" variant="h5">
+                    Pack List
+                </Typography>
+                <Button variant="contained">Add new pack</Button>
+            </div>
+            <div className={s.block}>
+                <Search />
+            </div>
+            <BasicTable />
+            <Paginator />
         </div>
-       <BasicTable/>
-        <Paginator/>
-
-    </div>
+    )
 }
 
 export default Packs

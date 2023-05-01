@@ -10,23 +10,9 @@ import { useSelector } from "react-redux"
 import { selectPacks } from "features/Packs/packs.selector"
 import { EditPack } from "features/Packs/EditPack"
 
-// function createData(
-//   id: string,
-//   name: string,
-//   cardsCount: number,
-//   updated: string,
-//   createdBy: string,
-//
-// ) {
-//   return { id,name, cardsCount, updated, createdBy };
-// }
-
 
 export  const BasicTable=() =>{
   const packs = useSelector(selectPacks)
-  // const rows = packs.map(p=>{
-  //   return createData(p._id,p.name,p.cardsCount,p.updated,p.user_name)
-  // })
 
   return (
     <TableContainer component={Paper}>

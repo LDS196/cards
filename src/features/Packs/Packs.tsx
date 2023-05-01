@@ -6,13 +6,15 @@ import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"
 import { selectPacks } from "features/Packs/packs.selector"
 import { RootState } from "app/store"
-
 import { BasicTable } from "features/Packs/BasicTable"
-import Paginator, { TablePaginationDemo } from "common/components/Paginator/Paginator"
+import { Paginator } from "common/components/Paginator/Paginator"
+import { Typography } from "@mui/material"
+
 
 
 
 const Packs = () => {
+    const pageCount = useSelector((state:RootState)=>state.packs.pageCount)
     const packs = useSelector(selectPacks)
     const cardPacksTotalCount = useSelector((state:RootState)=> state.packs.cardPacksTotalCount)
     const { getPacks } = useActions(packsThunks)
@@ -22,15 +24,20 @@ const Packs = () => {
         if (!isLoginIn) {
             return
         }
-        getPacks({})
         //fetch packs
+        getPacks({params:{ pageCount }})
+
     }, [])
 
     if (!isLoginIn) {
         return <Navigate to={"/login"} />
     }
     return <div>
-        Packs
+        <div>
+            <Typography component="h1" variant="h5">
+                Pack List
+            </Typography>
+        </div>
        <BasicTable/>
         <Paginator/>
 

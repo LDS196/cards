@@ -1,36 +1,38 @@
 import React, {memo, useEffect,} from 'react';
-import {useDispatch, useSelector} from "react-redux";
-
+import { useSelector} from "react-redux";
 import {Pagination, PaginationProps} from "antd";
 
+import { RootState } from "app/store"
+import { useActions } from "common/hooks/useActions"
+import { packsActions, packsThunks } from "features/Packs/packs.slise"
 
-const Paginator = memo(() => {
 
-    const totalItemsCount = useSelector(getTotalUsersCountSelector)
-    const pageSize = useSelector(getPageSizeSelector)
-    const currentPage = useSelector(getCurrentPageSelector)
-    const filter = useSelector(getUsersFilterSelector)
-    const dispatch = useDispatch()
 
+export const Paginator = memo(() => {
+
+    const cardPacksTotalCount = useSelector((state:RootState)=>state.packs.cardPacksTotalCount)
+    const pageCount = useSelector((state:RootState)=>state.packs.pageCount)
+    const page = useSelector((state:RootState)=>state.packs.page)
+    const { getPacks } = useActions(packsThunks)
+    const { changePageSize } = useActions(packsActions)
     useEffect(() => {
-        dispatch(getUsers(currentPage, pageSize, filter))
-    }, [pageSize])
+       getPacks({params:{ page, pageCount }})
+    }, [pageCount])
 
     const onPageChanged = (pageNumber: number) => {
-        dispatch(getUsers(pageNumber, pageSize, filter))
+        getPacks({params:{ page:pageNumber, pageCount }})
     }
 
     const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
-        dispatch(changePageSize(pageSize))
+       changePageSize(pageSize)
 
     };
     return (
         <div style={{margin:'15px 0px', textAlign:'center'}}>
-            <Pagination defaultCurrent={currentPage} total={totalItemsCount} onChange={onPageChanged}
+            <Pagination defaultCurrent={page} total={cardPacksTotalCount} onChange={onPageChanged}
                         onShowSizeChange={onShowSizeChange}/>
 
         </div>
     )
 });
 
-export default Paginator;

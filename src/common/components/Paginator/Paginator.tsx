@@ -1,28 +1,21 @@
-import React, {memo, useEffect,} from 'react';
+import React from "react"
 import { useSelector} from "react-redux";
 import {Pagination, PaginationProps} from "antd";
 
 import { RootState } from "app/store"
 import { useActions } from "common/hooks/useActions"
-import { packsActions, packsThunks } from "features/Packs/packs.slise"
+import { packsActions} from "features/Packs/packs.slise"
 
 
 
-export const Paginator = memo(() => {
+export const Paginator = () => {
+    const { cardPacksTotalCount,page } = useSelector((state: RootState) => state.packs)
+    const { changePageSize,changePage } = useActions(packsActions)
 
-    const cardPacksTotalCount = useSelector((state:RootState)=>state.packs.cardPacksTotalCount)
-    const pageCount = useSelector((state:RootState)=>state.packs.pageCount)
-    const page = useSelector((state:RootState)=>state.packs.page)
-    const { getPacks } = useActions(packsThunks)
-    const { changePageSize } = useActions(packsActions)
-    useEffect(() => {
-       getPacks({params:{ page, pageCount }})
-    }, [pageCount])
 
     const onPageChanged = (pageNumber: number) => {
-        getPacks({params:{ page:pageNumber, pageCount }})
+        changePage(pageNumber)
     }
-
     const onShowSizeChange: PaginationProps['onShowSizeChange'] = (current, pageSize) => {
        changePageSize(pageSize)
 
@@ -34,5 +27,5 @@ export const Paginator = memo(() => {
 
         </div>
     )
-});
+};
 

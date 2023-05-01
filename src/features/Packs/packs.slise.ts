@@ -37,6 +37,9 @@ export const slice = createSlice({
         changePageSize: (state, action: PayloadAction<number>) => {
             state.pageCount = action.payload
         },
+        changePage: (state, action: PayloadAction<number>) => {
+            state.page = action.payload
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getPacks.fulfilled, (state, action) => {

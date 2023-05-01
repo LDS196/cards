@@ -32,12 +32,13 @@ const Header = () => {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
               Cards
             </Typography>
-            <Link to={'/profile'}  style={{ display: "flex", alignItems: "center" }}>
+            {isLoginIn && <Link to={'/profile'} style={{ display: "flex", alignItems: "center" }}>
               <Typography variant="h6" component="div" sx={{ mr: 1 }}>
                 {userProfile?.name}
               </Typography>
               <Avatar alt="Avatar-user" src={userProfile?.avatar} sx={{ width: 46, height: 46, mr: 3 }} />
-            </Link>
+            </Link>}
+
             {isLoginIn ? (
               <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
                 Logout

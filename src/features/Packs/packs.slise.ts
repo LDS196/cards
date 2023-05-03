@@ -1,17 +1,28 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { FilterParamsType, packsApi, PackType, ResponseCardPacks } from "features/Packs/packs.api"
+import { filterActions } from "features/Filter/filter.slice"
+import { RootState } from "app/store"
 
-const getPacks = createAppAsyncThunk<ResponseCardPacks, FilterParamsType>("packs/getPacks", async (arg, ThunkApi) => {
-    const { rejectWithValue } = ThunkApi
-    try {
-        const res = await packsApi.getPacks(arg)
-        return res.data
-    } catch (e: any) {
-        console.log(e.response.data.error)
-        return rejectWithValue(null)
+const getPacks = createAppAsyncThunk<ResponseCardPacks, FilterParamsType, { state: RootState }>(
+    "packs/getPacks",
+    async (arg, ThunkApi) => {
+        const { rejectWithValue, dispatch, getState } = ThunkApi
+        try {
+            const res = await packsApi.getPacks(arg)
+            const { min, max } = getState().filter
+            if (min === undefined && max === undefined) {
+                dispatch(filterActions.setMaxCardsCount(res.data.maxCardsCount))
+                dispatch(filterActions.setMinCardsCount(res.data.minCardsCount))
+            }
+
+            return res.data
+        } catch (e: any) {
+            console.log(e.response.data.error)
+            return rejectWithValue(null)
+        }
     }
-})
+)
 
 type InitialStateType = {
     cardPacks: Array<PackType>
@@ -52,6 +63,6 @@ export const slice = createSlice({
         })
     },
 })
-export  const packsActions= slice.actions
+export const packsActions = slice.actions
 export const packsReducer = slice.reducer
 export const packsThunks = { getPacks }

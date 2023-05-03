@@ -2,16 +2,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 type InitialStateType = {
     packName: string
-    max: number
-    min: number
+    max: number| undefined
+    min: number| undefined
     user_id: string
     block:boolean
 }
 
 const initialState: InitialStateType = {
     packName: "",
-    max: 100,
-    min: 0,
+    max: undefined,
+    min: undefined,
     user_id: "",
     block:false
 
@@ -25,6 +25,13 @@ export const slice = createSlice({
         },
         setUserId: (state, action: PayloadAction<string>) => {
             state.user_id = action.payload
+        },
+        setMinCardsCount: (state, action: PayloadAction<number>) => {
+            state.min = action.payload
+
+        },
+        setMaxCardsCount: (state, action: PayloadAction<number>) => {
+            state.max = action.payload
         },
     },
 })

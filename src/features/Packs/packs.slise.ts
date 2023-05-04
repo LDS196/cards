@@ -1,6 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
-import { FilterParamsType, packsApi, PackType, ResponseCardPacks } from "features/Packs/packs.api"
+import {
+    FilterParamsType,
+    NewPackType,
+    packsApi,
+    PackType,
+    ResponseCardPacks,
+    UpdatePackType,
+} from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
 import { RootState } from "app/store"
 
@@ -23,7 +30,34 @@ const getPacks = createAppAsyncThunk<ResponseCardPacks, FilterParamsType, { stat
         }
     }
 )
+const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
+    try {
+        await packsApi.createPack(arg)
+        dispatch(getPacks({}))
+    } catch (e: any) {
+        rejectWithValue(null)
+    }
+})
+const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
+    try {
+        await packsApi.deletePack(arg.id)
 
+        dispatch(getPacks({}))
+    } catch (e: any) {
+        rejectWithValue(null)
+    }
+})
+const updatePack = createAppAsyncThunk<void, UpdatePackType>("packs/updatePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
+    try {
+        await packsApi.updatePack(arg)
+        dispatch(getPacks({}))
+    } catch (e: any) {
+        rejectWithValue(null)
+    }
+})
 type InitialStateType = {
     cardPacks: Array<PackType>
     cardPacksTotalCount: number
@@ -53,16 +87,22 @@ export const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getPacks.fulfilled, (state, action) => {
-            state.cardPacks = action.payload.cardPacks
-            state.cardPacksTotalCount = action.payload.cardPacksTotalCount
-            state.pageCount = action.payload.pageCount
-            state.maxCardsCount = action.payload.maxCardsCount
-            state.minCardsCount = action.payload.minCardsCount
-            state.page = action.payload.page
-        })
+        builder
+            .addCase(getPacks.fulfilled, (state, action) => {
+                state.cardPacks = action.payload.cardPacks
+                state.cardPacksTotalCount = action.payload.cardPacksTotalCount
+                state.pageCount = action.payload.pageCount
+                state.maxCardsCount = action.payload.maxCardsCount
+                state.minCardsCount = action.payload.minCardsCount
+                state.page = action.payload.page
+            })
+            .addCase(createPack.fulfilled, (state, action) => {})
+            .addCase(deletePack.fulfilled, (state, action) => {})
+            .addCase(updatePack.fulfilled, (state, action) => {
+                console.log('updated')
+            })
     },
 })
 export const packsActions = slice.actions
 export const packsReducer = slice.reducer
-export const packsThunks = { getPacks }
+export const packsThunks = { getPacks, createPack, deletePack,updatePack }

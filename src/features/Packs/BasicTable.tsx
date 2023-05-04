@@ -9,8 +9,10 @@ import Paper from "@mui/material/Paper"
 import { useSelector } from "react-redux"
 import { selectPacks } from "features/Packs/packs.selector"
 import { EditPack } from "features/Packs/EditPack"
+import { FC } from "react"
 
-export const BasicTable = () => {
+type PropsType={}
+export const BasicTable:FC<PropsType> = (props) => {
     const packs = useSelector(selectPacks)
     if (!packs.length) {
         return <div>"Колоды с введенным названием не найдены. Измените параметры поиска"</div>
@@ -37,12 +39,16 @@ export const BasicTable = () => {
                             <TableCell align="right">{p.updated}</TableCell>
                             <TableCell align="right">{p.user_name}</TableCell>
                             <TableCell align="right">
+
                                 <EditPack pack={p} />
                             </TableCell>
+
                         </TableRow>
+
                     ))}
                 </TableBody>
             </Table>
+
         </TableContainer>
     )
 }

@@ -98,9 +98,7 @@ export const slice = createSlice({
             })
             .addCase(createPack.fulfilled, (state, action) => {})
             .addCase(deletePack.fulfilled, (state, action) => {})
-            .addCase(updatePack.fulfilled, (state, action) => {
-                console.log('updated')
-            })
+            .addCase(updatePack.fulfilled, (state, action) => {})
     },
 })
 export const packsActions = slice.actions

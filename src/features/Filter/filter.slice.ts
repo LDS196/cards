@@ -6,6 +6,10 @@ type InitialStateType = {
     min: number| undefined
     user_id: string
     block:boolean
+    sortBy:{
+        name:string
+        sortType: string
+    }
 }
 
 const initialState: InitialStateType = {
@@ -13,8 +17,11 @@ const initialState: InitialStateType = {
     max: undefined,
     min: undefined,
     user_id: "",
-    block:false
-
+    block:false,
+    sortBy:{
+        name:'',
+        sortType: ''
+    }
 }
 export const slice = createSlice({
     name: "filter",
@@ -33,6 +40,12 @@ export const slice = createSlice({
         setMaxCardsCount: (state, action: PayloadAction<number>) => {
             state.max = action.payload
         },
+        clearFilter:(state, action: PayloadAction<any>) => {
+
+        },
+        sortPacks:(state, action:PayloadAction<{name:string,sortType:string}>)=>{
+            state.sortBy={...action.payload}
+        }
     },
 })
 export const filterActions = slice.actions

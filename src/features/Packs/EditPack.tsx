@@ -21,7 +21,6 @@ export const EditPack: FC<PropsType> = ({pack,}) => {
   const userProfile = useSelector(selectProfile)
   const showModalUpdatePack = () => {
     setIsShowUpdateModal((prevState) => !prevState)
-
   }
     return (
         <div>

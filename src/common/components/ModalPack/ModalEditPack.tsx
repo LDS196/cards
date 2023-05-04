@@ -55,7 +55,7 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                 <div className={s.modal}>
                     <div className={s.title}>
                         <Typography component="p" sx={{ fontSize: "18px" }}>
-                            Update pack
+                            Edit pack
                         </Typography>
                         <button onClick={showModalUpdatePack}>
                             <CloseIcon />
@@ -96,7 +96,7 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Save
+                               Save
                             </Button>
                         </div>
                     </form>

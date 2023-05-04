@@ -14,19 +14,20 @@ import { selectFilter } from "features/Filter/filter.selector"
 import { selectPage, selectPageCount } from "features/Packs/packs.selector"
 import { RangeSlider } from "common/components/RengeSlider/RangeSlider"
 import { ModalPack } from "common/components/ModalPack/ModalPack"
-
+import FilterAltOffIcon from '@mui/icons-material/FilterAltOff';
 const Packs = () => {
-    const { packName, user_id, block, min, max } = useSelector(selectFilter)
+    const { packName, user_id, block, min, max,sortBy } = useSelector(selectFilter)
     const pageCount = useSelector(selectPageCount)
     const page = useSelector(selectPage)
     const { getPacks } = useActions(packsThunks)
     const isLoginIn = useSelector(selectIsLoginIn)
     const [isShow, setIsShow] = useState(false)
 
-
-
     const showModalAddPack = () => {
         setIsShow((prevState) => !prevState)
+    }
+    const clearFilter = ()=>{
+
     }
 
     useEffect(() => {
@@ -39,9 +40,10 @@ const Packs = () => {
                 min,
                 user_id,
                 block,
+                sortPacks:sortBy.sortType + sortBy.name
             },
         })
-    }, [pageCount, page, packName, min, max, user_id, block])
+    }, [pageCount, page, packName, min, max, user_id, block,sortBy])
 
     if (!isLoginIn) {
         return <Navigate to={"/login"} />
@@ -60,6 +62,9 @@ const Packs = () => {
                 <Search />
                 <ChooseAuthor />
                 <RangeSlider />
+                <button onClick={clearFilter} style={{padding:'5px',marginTop:'24px'}}>
+                    <FilterAltOffIcon color={"primary"} />
+                </button>
             </div>
             <BasicTable />
             <Paginator />

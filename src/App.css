@@ -6,6 +6,10 @@
 ul{
     list-style-type:none;
 }
+a{
+    text-decoration: none;
+    color: inherit;
+}
 button{
     background: transparent;
     border: none;

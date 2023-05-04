@@ -1,7 +1,6 @@
 import React, { useEffect } from "react"
 import "./App.css"
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom"
-
+import { Route, Routes,} from "react-router-dom"
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
@@ -9,18 +8,17 @@ import Profile from "features/Profile/Profile"
 import Packs from "features/Packs/Packs"
 import Cards from "features/Cards/Cards"
 import { useSelector } from "react-redux"
-import { selectAppError, selectIsAppInitialized } from "app/app.select"
-import { CircularProgress, LinearProgress } from "@mui/material"
+import {  selectIsAppInitialized, } from "app/app.select"
+import { CircularProgress,} from "@mui/material"
 import { Login } from "features/auth/Login/Login"
 import { ForgotPassword } from "features/auth/ForgotPassword"
-import Header from "common/components/Header"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
-import { selectIsLoginIn } from "features/auth/auth.select"
+import { Header } from "common/components/Header"
+
 
 function App() {
-    const isLoginIn = useSelector(selectIsLoginIn)
-    const navigate = useNavigate()
+
     const isAppInitialized = useSelector(selectIsAppInitialized)
     const { initializeApp } = useActions(authThunks)
     useEffect(() => {
@@ -34,7 +32,6 @@ function App() {
             </div>
         )
     }
-
     return (
         <div className="App">
             <Header />

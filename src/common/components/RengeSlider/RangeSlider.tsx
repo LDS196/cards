@@ -42,7 +42,7 @@ export const RangeSlider = () => {
     }, [debouncedValue])
 
     return (
-        <Box sx={{ width: 200, display: "flex", flexDirection: "column" }}>
+        <Box sx={{ width: 250, display: "flex", flexDirection: "column" }}>
             <Typography component="p" sx={{ fontSize: "18px" }}>
                 Number of cards
             </Typography>

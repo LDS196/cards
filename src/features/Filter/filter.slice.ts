@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 type InitialStateType = {
     packName: string
-    max: number| undefined
-    min: number| undefined
+    max: number | undefined
+    min: number | undefined
     user_id: string
-    block:boolean
-    sortBy:{
-        name:string
+    block: boolean
+    sortBy: {
+        name: string
         sortType: string
     }
 }
@@ -17,11 +17,11 @@ const initialState: InitialStateType = {
     max: undefined,
     min: undefined,
     user_id: "",
-    block:false,
-    sortBy:{
-        name:'',
-        sortType: ''
-    }
+    block: false,
+    sortBy: {
+        name: "",
+        sortType: "",
+    },
 }
 export const slice = createSlice({
     name: "filter",
@@ -35,17 +35,16 @@ export const slice = createSlice({
         },
         setMinCardsCount: (state, action: PayloadAction<number>) => {
             state.min = action.payload
-
         },
         setMaxCardsCount: (state, action: PayloadAction<number>) => {
             state.max = action.payload
         },
-        clearFilter:(state, action: PayloadAction<any>) => {
-
+        clearFilter: (state, action: PayloadAction<InitialStateType>) => {
+            return { ...action.payload }
         },
-        sortPacks:(state, action:PayloadAction<{name:string,sortType:string}>)=>{
-            state.sortBy={...action.payload}
-        }
+        sortPacks: (state, action: PayloadAction<{ name: string; sortType: string }>) => {
+            state.sortBy = { ...action.payload }
+        },
     },
 })
 export const filterActions = slice.actions

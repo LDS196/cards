@@ -1,28 +1,33 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
-import {
-    FilterParamsType,
-    NewPackType,
-    packsApi,
-    PackType,
-    ResponseCardPacks,
-    UpdatePackType,
-} from "features/Packs/packs.api"
+import { NewPackType, packsApi, PackType,
+    ResponseCardPacks, UpdatePackType, } from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
 import { RootState } from "app/store"
 
-const getPacks = createAppAsyncThunk<ResponseCardPacks, FilterParamsType, { state: RootState }>(
+const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined, { state: RootState }>(
     "packs/getPacks",
-    async (arg, ThunkApi) => {
+    async (_, ThunkApi) => {
         const { rejectWithValue, dispatch, getState } = ThunkApi
         try {
-            const res = await packsApi.getPacks(arg)
-            const { min, max } = getState().filter
+            const { packName, max, sortBy, min, user_id, block } = getState().filter
+            const { page, pageCount } = getState().packs
+            const params= {
+                        pageCount,
+                        page,
+                        packName,
+                        max,
+                        min,
+                        user_id,
+                        block,
+                        sortPacks:sortBy.sortType + sortBy.name
+                    }
+            const res = await packsApi.getPacks({ params })
+
             if (min === undefined && max === undefined) {
                 dispatch(filterActions.setMaxCardsCount(res.data.maxCardsCount))
                 dispatch(filterActions.setMinCardsCount(res.data.minCardsCount))
             }
-
             return res.data
         } catch (e: any) {
             console.log(e.response.data.error)
@@ -34,7 +39,7 @@ const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", as
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         await packsApi.createPack(arg)
-        dispatch(getPacks({}))
+        dispatch(getPacks())
     } catch (e: any) {
         rejectWithValue(null)
     }
@@ -43,8 +48,7 @@ const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack",
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         await packsApi.deletePack(arg.id)
-
-        dispatch(getPacks({}))
+        dispatch(getPacks())
     } catch (e: any) {
         rejectWithValue(null)
     }
@@ -53,7 +57,7 @@ const updatePack = createAppAsyncThunk<void, UpdatePackType>("packs/updatePack",
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         await packsApi.updatePack(arg)
-        dispatch(getPacks({}))
+        dispatch(getPacks())
     } catch (e: any) {
         rejectWithValue(null)
     }
@@ -96,9 +100,9 @@ export const slice = createSlice({
                 state.minCardsCount = action.payload.minCardsCount
                 state.page = action.payload.page
             })
-            .addCase(createPack.fulfilled, (state, action) => {})
-            .addCase(deletePack.fulfilled, (state, action) => {})
-            .addCase(updatePack.fulfilled, (state, action) => {})
+            .addCase(createPack.fulfilled, () => {})
+            .addCase(deletePack.fulfilled, () => {})
+            .addCase(updatePack.fulfilled, () => {})
     },
 })
 export const packsActions = slice.actions

@@ -26,15 +26,19 @@ export const BasicTable: FC<PropsType> = () => {
     if (!packs.length) {
         return <div>"Колоды с введенным названием не найдены. Измените параметры поиска"</div>
     }
+
     const sortItems = (name: string) => {
         if (sortBy.sortType === "") {
             sortPacks({ name: name, sortType: '0' })
+            return
         }
         if (sortBy.sortType === '0') {
             sortPacks({ name: name, sortType: '1' })
+            return
         }
         if (sortBy.sortType === '1') {
             sortPacks({ name: name, sortType: '0' })
+            return
         }
     }
 

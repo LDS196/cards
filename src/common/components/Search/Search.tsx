@@ -1,25 +1,24 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, FC, useEffect, useState } from "react"
 import { InputAdornment, TextField, Typography } from "@mui/material"
 import SearchIcon from "@mui/icons-material/Search"
-import { useActions } from "common/hooks/useActions"
-import { packsActions,} from "features/Packs/packs.slise"
 import { useDebounce } from "usehooks-ts"
-import { filterActions } from "features/Filter/filter.slice"
-import { useSelector } from "react-redux"
-import { selectFilter } from "features/Filter/filter.selector"
 
-export const Search = () => {
-    const { setSearchValue } = useActions(filterActions)
-    const { packName } = useSelector(selectFilter)
-    const { changePage } = useActions(packsActions)
-    const [value, setValue] = useState(packName)
+type PropsType = {
+    setSearchValue: (value: string) => void
+    searchName: string
+    changePage: (value: number) => void
+}
+export const Search: FC<PropsType> = (props) => {
+    const { setSearchValue, searchName, changePage } = props
+
+    const [value, setValue] = useState(searchName)
     const debouncedValue = useDebounce<string>(value, 500)
     const [firstRender, setFirstRender] = useState(true)
-  useEffect(() => {
-    if (packName === "" ) {
-      setValue('')
-    }
-  }, [packName])
+    useEffect(() => {
+        if (searchName === "") {
+            setValue("")
+        }
+    }, [searchName])
     useEffect(() => {
         if (!firstRender) {
             changePage(1)

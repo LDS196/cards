@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
-import { NewPackType, packsApi, PackType,
-    ResponseCardPacks, UpdatePackType, } from "features/Packs/packs.api"
+import { NewPackType, packsApi, PackType, ResponseCardPacks, UpdatePackType } from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
 import { RootState } from "app/store"
 
@@ -12,16 +11,16 @@ const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined, { state: Root
         try {
             const { packName, max, sortBy, min, user_id, block } = getState().filter
             const { page, pageCount } = getState().packs
-            const params= {
-                        pageCount,
-                        page,
-                        packName,
-                        max,
-                        min,
-                        user_id,
-                        block,
-                        sortPacks:sortBy.sortType + sortBy.name
-                    }
+            const params = {
+                pageCount,
+                page,
+                packName,
+                max,
+                min,
+                user_id,
+                block,
+                sortPacks: sortBy.sortType + sortBy.name,
+            }
             const res = await packsApi.getPacks({ params })
 
             if (min === undefined && max === undefined) {
@@ -93,12 +92,7 @@ export const slice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getPacks.fulfilled, (state, action) => {
-                state.cardPacks = action.payload.cardPacks
-                state.cardPacksTotalCount = action.payload.cardPacksTotalCount
-                state.pageCount = action.payload.pageCount
-                state.maxCardsCount = action.payload.maxCardsCount
-                state.minCardsCount = action.payload.minCardsCount
-                state.page = action.payload.page
+                return { ...action.payload }
             })
             .addCase(createPack.fulfilled, () => {})
             .addCase(deletePack.fulfilled, () => {})
@@ -107,4 +101,4 @@ export const slice = createSlice({
 })
 export const packsActions = slice.actions
 export const packsReducer = slice.reducer
-export const packsThunks = { getPacks, createPack, deletePack,updatePack }
+export const packsThunks = { getPacks, createPack, deletePack, updatePack }

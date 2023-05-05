@@ -1,4 +1,4 @@
-import React, { FC} from "react"
+import React, { FC } from "react"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
@@ -11,12 +11,17 @@ type PropsType = {
     showModalAddPack: () => void
 }
 type FormType = {
-    name:string
-    private:boolean
+    name: string
+    private: boolean
 }
-export const ModalPack: FC<PropsType> = ({ showModalAddPack }) => {
-    const{createPack} = useActions(packsThunks)
-    const { register, watch, formState: { errors, isDirty, isValid }, handleSubmit, } = useForm<FormType>({
+export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
+    const { createPack } = useActions(packsThunks)
+    const {
+        register,
+        watch,
+        formState: { errors, isDirty, isValid },
+        handleSubmit,
+    } = useForm<FormType>({
         defaultValues: {
             name: "",
             private: false,
@@ -25,20 +30,24 @@ export const ModalPack: FC<PropsType> = ({ showModalAddPack }) => {
     })
     const onSubmit = (data: FormType) => {
         createPack({
-              cardsPack: {
-                  name: data.name,
-                  private: data.private
-              }}
-        ).unwrap().then(()=> showModalAddPack())
+            cardsPack: {
+                name: data.name,
+                private: data.private,
+            },
+        })
+            .unwrap()
+            .then(() => showModalAddPack())
     }
     return (
         <div className={s.modalWrapper}>
-            <Paper elevation={3} sx={{
-                maxWidth: "350px",
-                width: "100%"
-            }}>
-            <div className={s.modal}>
-
+            <Paper
+                elevation={3}
+                sx={{
+                    maxWidth: "350px",
+                    width: "100%",
+                }}
+            >
+                <div className={s.modal}>
                     <div className={s.title}>
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Add new pack
@@ -72,27 +81,21 @@ export const ModalPack: FC<PropsType> = ({ showModalAddPack }) => {
                             label="Private"
                         />
                         <div className={s.modalButtons}>
-                            <Button
-                              onClick={showModalAddPack}
-                              variant="outlined"
-                              sx={{ mt: 3, mb: 2 }}
-                            >
-                              Cancel
+                            <Button onClick={showModalAddPack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                                Cancel
                             </Button>
                             <Button
-                              disabled={!isDirty || !isValid}
-                              type="submit"
-                              color={"primary"}
-                              variant="contained"
-                              sx={{ mt: 3, mb: 2 }}
+                                disabled={!isDirty || !isValid}
+                                type="submit"
+                                color={"primary"}
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
                             >
                                 Save
                             </Button>
                         </div>
                     </form>
-
-
-            </div>
+                </div>
             </Paper>
         </div>
     )

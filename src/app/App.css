@@ -3,19 +3,19 @@
     box-sizing: border-box;
     padding: 0;
 }
-ul{
-    list-style-type:none;
+ul {
+    list-style-type: none;
 }
-a{
+a {
     text-decoration: none;
     color: inherit;
 }
-button{
+button {
     background: transparent;
     border: none;
-    cursor:pointer;
+    cursor: pointer;
 }
-.App{
+.App {
     width: 100%;
     max-width: 1440px;
     margin: 0 auto;

@@ -7,7 +7,7 @@ import { useSelector } from "react-redux"
 import { selectFilter } from "features/Filter/filter.selector"
 import { useActions } from "common/hooks/useActions"
 import { useDebounce } from "usehooks-ts"
-import { useEffect, } from "react"
+import { useEffect } from "react"
 import { filterActions } from "features/Filter/filter.slice"
 
 export const RangeSlider = () => {

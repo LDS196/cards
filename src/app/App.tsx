@@ -1,24 +1,23 @@
 import React, { useEffect } from "react"
-import "./App.css"
-import { Route, Routes,} from "react-router-dom"
+import "app/App.css"
+import { Route, Routes } from "react-router-dom"
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
 import Profile from "features/Profile/Profile"
 import Packs from "features/Packs/Packs"
-import Cards from "features/Cards/Cards"
+
 import { useSelector } from "react-redux"
-import {  selectIsAppInitialized, } from "app/app.select"
-import { CircularProgress,} from "@mui/material"
+import { selectIsAppInitialized } from "app/app.select"
+import { CircularProgress } from "@mui/material"
 import { Login } from "features/auth/Login/Login"
 import { ForgotPassword } from "features/auth/ForgotPassword"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import { Header } from "common/components/Header"
-
+import { Cards } from "features/Cards/Cards"
 
 function App() {
-
     const isAppInitialized = useSelector(selectIsAppInitialized)
     const { initializeApp } = useActions(authThunks)
     useEffect(() => {

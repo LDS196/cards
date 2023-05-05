@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import { Button,  Paper, Typography } from "@mui/material"
+import { Button, Paper, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
 import { useActions } from "common/hooks/useActions"
@@ -41,15 +41,20 @@ export const ModalDeletePack: FC<PropsType> = ({ showModalDeletePack, pack }) =>
                             Do you really want to remove pack <b>{pack.name}?</b>
                             All cards will be deleted.
                         </Typography>
-                    <div className={s.modalButtons}>
-                        <Button onClick={showModalDeletePack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
-                            Cancel
-                        </Button>
-                        <Button onClick={deletePackHandler} color={"error"} variant="contained" sx={{ mt: 3, mb: 2 }}>
-                            Delete
-                        </Button>
-                    </div>
-                        </form>
+                        <div className={s.modalButtons}>
+                            <Button onClick={showModalDeletePack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                                Cancel
+                            </Button>
+                            <Button
+                                onClick={deletePackHandler}
+                                color={"error"}
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Delete
+                            </Button>
+                        </div>
+                    </form>
                 </div>
             </Paper>
         </div>

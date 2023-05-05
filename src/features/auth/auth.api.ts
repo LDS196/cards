@@ -13,7 +13,7 @@ export const authApi = {
     forgotPassword(data: ChangeEmailData) {
         return instance.post<InfoResponseType>("auth/forgot", data)
     },
-    changeProfileData(data: { name: string,avatar:string }) {
+    changeProfileData(data: { name: string; avatar: string }) {
         return instance.put<ChangeDataResponseType>("auth/me", data)
     },
     logout() {

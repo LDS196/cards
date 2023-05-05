@@ -5,7 +5,7 @@ import s from "./Login/Login.module.scss"
 import { useNavigate, useParams } from "react-router-dom"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
-import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 type UseFormType = {
     password: string
 }
@@ -58,21 +58,21 @@ const SetNewPassword = () => {
                     >
                         <div className={s.password}>
                             <TextField
-                              {...register("password", {
-                                  required: true,
-                                  minLength: {
-                                      value: 8,
-                                      message: "Min length 8 symbols",
-                                  },
-                              })}
-                              margin="normal"
-                              fullWidth
-                              name="password"
-                              label="Password"
-                              type={type}
-                              id="password"
+                                {...register("password", {
+                                    required: true,
+                                    minLength: {
+                                        value: 8,
+                                        message: "Min length 8 symbols",
+                                    },
+                                })}
+                                margin="normal"
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type={type}
+                                id="password"
                             />
-                            <RemoveRedEyeIcon className={s.showPassword} onClick={() => changeType(type, setType)}/>
+                            <RemoveRedEyeIcon className={s.showPassword} onClick={() => changeType(type, setType)} />
                         </div>
 
                         <div className={s.error}>

@@ -92,23 +92,23 @@ export const Login = () => {
                         />
                         <div className={s.error}>{errors?.email && <p>{errors?.email?.message || "Error"}</p>}</div>
                         <div className={s.password}>
-                        <TextField
-                            {...register("password", {
-                                required: true,
-                                minLength: {
-                                    value: 8,
-                                    message: "Min length 8 symbols",
-                                },
-                            })}
-                            margin="normal"
-                            fullWidth
-                            name="password"
-                            label="Password"
-                            type={type}
-                            id="password"
-                        />
-                        <RemoveRedEyeIcon className={s.showPassword} onClick={() => changeType(type, setType)}/>
-                    </div>
+                            <TextField
+                                {...register("password", {
+                                    required: true,
+                                    minLength: {
+                                        value: 8,
+                                        message: "Min length 8 symbols",
+                                    },
+                                })}
+                                margin="normal"
+                                fullWidth
+                                name="password"
+                                label="Password"
+                                type={type}
+                                id="password"
+                            />
+                            <RemoveRedEyeIcon className={s.showPassword} onClick={() => changeType(type, setType)} />
+                        </div>
                         <div className={s.error}>
                             {errors?.password && <p>{errors?.password?.message || "Error"}</p>}
                         </div>

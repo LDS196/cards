@@ -1,4 +1,4 @@
-import React, { FC} from "react"
+import React, { FC } from "react"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
@@ -10,7 +10,7 @@ import { PackType } from "features/Packs/packs.api"
 
 type PropsType = {
     showModalUpdatePack: () => void
-    pack:PackType
+    pack: PackType
 }
 type FormType = {
     name: string
@@ -37,7 +37,6 @@ export const ModalEditPack: FC<PropsType> = (props) => {
             cardsPack: {
                 _id: pack._id,
                 name: data.name,
-
             },
         })
             .unwrap()
@@ -96,7 +95,7 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                               Save
+                                Save
                             </Button>
                         </div>
                     </form>

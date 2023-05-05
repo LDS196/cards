@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import {
-  authApi, ChangeDataResponseType,
-  LoginParamsType,
-  NewPasswordType,
-  ProfileType,
-  RegisterParamsType,
-  RegisterResponseType
+    authApi,
+    ChangeDataResponseType,
+    LoginParamsType,
+    NewPasswordType,
+    ProfileType,
+    RegisterParamsType,
+    RegisterResponseType,
 } from "features/auth/auth.api"
 import { ChangeEmailData, InfoResponseType } from "../auth/auth.api"
 import { appActions } from "app/app.slice"
@@ -27,7 +28,7 @@ const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
 const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, LoginParamsType>(
     "auth/register",
     async (arg, ThunkApi) => {
-        const { rejectWithValue} = ThunkApi
+        const { rejectWithValue } = ThunkApi
         try {
             const res = await authApi.login(arg)
             return { profile: res.data, isLoginIn: true }
@@ -38,7 +39,7 @@ const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, 
     }
 )
 const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", async (_, ThunkApi) => {
-    const { rejectWithValue,} = ThunkApi
+    const { rejectWithValue } = ThunkApi
     try {
         const res = await authApi.logout()
         return { isLoginIn: false }
@@ -82,7 +83,7 @@ const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
         }
     }
 )
-const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name:string,avatar:string }>(
+const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name: string; avatar: string }>(
     "auth/changeProfileData",
     async (arg, ThunkApi) => {
         const { rejectWithValue } = ThunkApi
@@ -112,17 +113,15 @@ const slice = createSlice({
             .addCase(initializeApp.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
             })
-            .addCase(forgotPassword.fulfilled, (state, action) => {
-
-            })
+            .addCase(forgotPassword.fulfilled, (state, action) => {})
             .addCase(logout.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
             })
-          .addCase(changeProfileData.fulfilled, (state, action) => {
-            state.profile = action.payload.updatedUser
-          })
+            .addCase(changeProfileData.fulfilled, (state, action) => {
+                state.profile = action.payload.updatedUser
+            })
     },
 })
 
 export const authReducer = slice.reducer
-export const authThunks = { changeProfileData,setNewPassword, forgotPassword, register, login, initializeApp, logout }
+export const authThunks = { changeProfileData, setNewPassword, forgotPassword, register, login, initializeApp, logout }

@@ -8,7 +8,6 @@ import { Paginator } from "common/components/Paginator/Paginator"
 import { selectCards } from "features/Cards/cards.selector"
 import { cardsActions, cardsThunks } from "features/Cards/cards.slice"
 import { selectProfile } from "features/Profile/profile.select"
-
 import Back from "common/components/Back"
 import { TableCards } from "features/Cards/TableCards"
 import { filterCardsActions } from "features/Cards/Filter/filterCards.slice"
@@ -19,7 +18,7 @@ import { ModalAddCard } from "common/components/ModalPack/ModalsCards/ModalAddCa
 export const Cards = () => {
     const isLoading = useSelector(selectIsLoading)
     const userProfile = useSelector(selectProfile)
-    const { pageCount, page, cardsTotalCount, packUserId, cards, cardsPack_id } = useSelector(selectCards)
+    const { pageCount, page, cardsTotalCount, packUserId, cards,} = useSelector(selectCards)
     const { getCards } = useActions(cardsThunks)
     const { changePageSize, changePage } = useActions(cardsActions)
     const [isShow, setIsShow] = useState(false)
@@ -43,9 +42,9 @@ export const Cards = () => {
 
     const titleCards = userProfile?._id === packUserId ? "MyPack" : "Friends Pack"
 
-    if (isLoading) {
-        return <Back title={"Back to Pack List"} link={""} clearFilterHandler={clearFilterHandler} />
-    }
+    // if (isLoading) {
+    //     return <Back title={"Back to Pack List"} link={""} clearFilterHandler={clearFilterHandler} />
+    // }
     return (
         <div>
             <Back title={"Back to Pack List"} link={""} clearFilterHandler={clearFilterHandler} />
@@ -54,7 +53,7 @@ export const Cards = () => {
                     {titleCards}
                 </Typography>
                 {userProfile?._id === packUserId && (
-                    <Button onClick={() => showModalAddCard()} variant="contained">
+                    <Button disabled={isLoading} onClick={() => showModalAddCard()} variant="contained">
                         Add new Card
                     </Button>
                 )}

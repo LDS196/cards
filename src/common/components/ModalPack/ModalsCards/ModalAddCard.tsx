@@ -1,28 +1,16 @@
 import React, { FC, useState } from "react"
-import {
-    Box,
-    Button,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    InputLabel,
-    MenuItem,
-    Paper,
-    Select,
-    SelectChangeEvent,
-    TextField,
-    Typography,
+import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select,
+    SelectChangeEvent, TextField, Typography,
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
 import { useForm } from "react-hook-form"
-
 import { useActions } from "common/hooks/useActions"
-import { packsThunks } from "features/Packs/packs.slise"
 import { cardsThunks } from "features/Cards/cards.slice"
 import { useSelector } from "react-redux"
 import { selectCards } from "features/Cards/cards.selector"
 import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
     showModalAddCard: () => void
@@ -33,9 +21,10 @@ type FormType = {
 }
 export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
     const { cardsPack_id } = useSelector(selectCards)
-
+    const isLoading = useSelector(selectIsLoading)
     const [type, setType] = useState("text")
     const [type1, setType1] = useState("text")
+
     const [answerImg, setAnswerImg] = useState("")
     const [questionImg, setQuestionImg] = useState("")
     const setAnswerImgHandler = (value: string) => {
@@ -46,15 +35,28 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
     }
 
     const handleChange = (event: SelectChangeEvent) => {
+        if (type === "text") {
+            resetField("question")
+        }
+        if (type === "image") {
+            setQuestionImg("")
+        }
         setType(event.target.value as string)
     }
     const handleChange1 = (event: SelectChangeEvent) => {
+        if (type1 === "text") {
+            resetField("answer")
+        }
+        if (type1 === "image") {
+            setAnswerImg("")
+        }
         setType1(event.target.value as string)
     }
     const { addNewCard } = useActions(cardsThunks)
     const {
         register,
-        formState: { errors, isDirty, isValid },
+        resetField,
+        formState: { errors, dirtyFields, isValid },
         handleSubmit,
     } = useForm<FormType>({
         defaultValues: {
@@ -76,6 +78,9 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
             .unwrap()
             .then(() => showModalAddCard())
     }
+    const btnDisabled =
+        (type === "text" ? !dirtyFields.question || !isValid : !questionImg) ||
+        (type1 === "text" ? !dirtyFields.answer || !isValid : !answerImg) || isLoading
     return (
         <div className={s.modalWrapper}>
             <Paper
@@ -166,11 +171,11 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
                             />
                         )}
                         <div className={s.modalButtons}>
-                            <Button onClick={showModalAddCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button disabled={isLoading} onClick={showModalAddCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
                                 Cancel
                             </Button>
                             <Button
-                                // disabled={!isDirty || !isValid}
+                                disabled={btnDisabled}
                                 type="submit"
                                 color={"primary"}
                                 variant="contained"

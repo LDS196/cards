@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
-import { Box, Button, FormControl, InputLabel,
-    MenuItem, Paper, Select, SelectChangeEvent, TextField, Typography,
+import { Button, Paper, TextField, Typography,
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
@@ -9,21 +8,23 @@ import { useActions } from "common/hooks/useActions"
 import { cardsThunks } from "features/Cards/cards.slice"
 import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
 import { CardType } from "features/Cards/cards.api"
+import { useSelector } from "react-redux"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
     showModalUpdateCard: () => void
-    card:CardType
+    card: CardType
 }
 type FormType = {
     question: string
     answer: string
 }
-export const ModalEditCard: FC<PropsType> = ({showModalUpdateCard,card }) => {
-const {updateCard}= useActions(cardsThunks)
+export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
 
-
-    const [type, setType] = useState("text")
-    const [type1, setType1] = useState("text")
+    const { updateCard } = useActions(cardsThunks)
+    const isLoading = useSelector(selectIsLoading)
+    const typeQuestion = card.questionImg ? "image" : "text"
+    const typeAnswer = card.answerImg ? "image" : "text"
     const [answerImg, setAnswerImg] = useState(card.answerImg)
     const [questionImg, setQuestionImg] = useState(card.questionImg)
     const setAnswerImgHandler = (value: string) => {
@@ -33,21 +34,15 @@ const {updateCard}= useActions(cardsThunks)
         setQuestionImg(value)
     }
 
-    const handleChange = (event: SelectChangeEvent) => {
-        setType(event.target.value as string)
-    }
-    const handleChange1 = (event: SelectChangeEvent) => {
-        setType1(event.target.value as string)
-    }
 
     const {
         register,
-        formState: { errors, isDirty, isValid },
+        formState: { errors,dirtyFields, isValid },
         handleSubmit,
     } = useForm<FormType>({
         defaultValues: {
-            question: "",
-            answer: "",
+            question: card.question,
+            answer: card.answer,
         },
         mode: "onChange",
     })
@@ -61,115 +56,101 @@ const {updateCard}= useActions(cardsThunks)
                 questionImg: questionImg,
             },
         })
-          .unwrap()
-          .then(() => showModalUpdateCard())
+            .unwrap()
+            .then(() => showModalUpdateCard())
     }
+    const btnDisabled =
+      (typeQuestion === "text" ? (!dirtyFields.question || !isValid) : !questionImg) ||
+      (typeAnswer === "text" ? (!dirtyFields.answer || !isValid ): !answerImg) || isLoading
+
     return (
-      <div className={s.modalWrapper}>
-          <Paper
-            elevation={3}
-            sx={{
-                maxWidth: "350px",
-                width: "100%",
-            }}
-          >
-              <div className={s.modal}>
-                  <div className={s.title}>
-                      <Typography component="p" sx={{ fontSize: "18px" }}>
-                          Add new Card
-                      </Typography>
-                      <button onClick={showModalUpdateCard}>
-                          <CloseIcon />
-                      </button>
-                  </div>
+        <div className={s.modalWrapper}>
+            <Paper
+                elevation={3}
+                sx={{
+                    maxWidth: "350px",
+                    width: "100%",
+                }}
+            >
+                <div className={s.modal}>
+                    <div className={s.title}>
+                        <Typography component="p" sx={{ fontSize: "18px" }}>
+                            Edit Card
+                        </Typography>
+                        <button onClick={showModalUpdateCard}>
+                            <CloseIcon />
+                        </button>
+                    </div>
 
-                  <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
-                      <Box>
-                          <FormControl fullWidth>
-                              <InputLabel id="elect-label">Type Question</InputLabel>
-                              <Select labelId="select-label" value={type} label="type" onChange={handleChange}>
-                                  <MenuItem value={"text"}>Text</MenuItem>
-                                  <MenuItem value={"image"}>Image</MenuItem>
-                              </Select>
-                          </FormControl>
-                      </Box>
-                      {type === "text" ? (
-                        <>
-                            <TextField
-                              {...register("question", {
-                                  required: true,
-                                  minLength: { value: 3, message: "Min length 3 symbols" },
-                              })}
-                              fullWidth
-                              label="Question"
-                              variant="standard"
-                              name={"question"}
-                              type={"text"}
+                    <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
+                        {typeQuestion === "text" ? (
+                            <>
+                                <TextField
+                                    {...register("question", {
+                                        required: true,
+                                        minLength: { value: 3, message: "Min length 3 symbols" },
+                                    })}
+                                    fullWidth
+                                    label="Question"
+                                    variant="standard"
+                                    name={"question"}
+                                    type={"text"}
+                                />
+                                <div className={s.error}>
+                                    {errors?.question && <p>{errors?.question?.message || "Error"}</p>}
+                                </div>
+                            </>
+                        ) : (
+                            <InputTypeFile
+                                title={"Question"}
+                                nameButton={"Change Image Question"}
+                                callback={setQuestionImgHandler}
+                                cover={questionImg}
                             />
-                            <div className={s.error}>
-                                {errors?.question && <p>{errors?.question?.message || "Error"}</p>}
-                            </div>
-                        </>
-                      ) : (
-                        <InputTypeFile
-                          title={"Question"}
-                          nameButton={"Add Image Question"}
-                          callback={setQuestionImgHandler}
-                          cover={questionImg}
-                        />
-                      )}
+                        )}
 
-                      <Box>
-                          <FormControl fullWidth>
-                              <InputLabel id="select-label">Type Answer</InputLabel>
-                              <Select labelId="select-label" value={type1} label="type1" onChange={handleChange1}>
-                                  <MenuItem value={"text"}>Text</MenuItem>
-                                  <MenuItem value={"image"}>Image</MenuItem>
-                              </Select>
-                          </FormControl>
-                      </Box>
-                      {type1 === "text" ? (
-                        <>
-                            <TextField
-                              {...register("answer", {
-                                  required: true,
-                                  minLength: { value: 1, message: "Min length 1 symbols" },
-                              })}
-                              fullWidth
-                              label="Answer"
-                              variant="standard"
-                              name={"answer"}
-                              type={"text"}
+                        {typeAnswer === "text" ? (
+                            <>
+                                <TextField
+                                    {...register("answer", {
+                                        required: true,
+                                        minLength: { value: 1, message: "Min length 1 symbols" },
+                                    })}
+                                    fullWidth
+                                    label="Answer"
+                                    variant="standard"
+                                    name={"answer"}
+                                    type={"text"}
+                                />
+                                <div className={s.error}>
+                                    {errors?.answer && <p>{errors?.answer?.message || "Error"}</p>}
+                                </div>
+                            </>
+                        ) : (
+                            <InputTypeFile
+                                title={"Answer"}
+                                nameButton={"Change Image Answer"}
+                                callback={setAnswerImgHandler}
+                                cover={answerImg}
                             />
-                            <div className={s.error}>
-                                {errors?.answer && <p>{errors?.answer?.message || "Error"}</p>}
-                            </div>
-                        </>
-                      ) : (
-                        <InputTypeFile
-                          title={"Answer"}
-                          nameButton={"Add Image Answer"}
-                          callback={setAnswerImgHandler}
-                          cover={answerImg}
-                        />
-                      )}
-                      <div className={s.modalButtons}>
-                          <Button onClick={showModalUpdateCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
-                              Cancel
-                          </Button>
-                          <Button
-                            // disabled={!isDirty || !isValid}
-                            type="submit"
-                            color={"primary"}
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                          >
-                              Save
-                          </Button>
-                      </div>
-                  </form>
-              </div>
-          </Paper>
-      </div>
+                        )}
+                        <div className={s.modalButtons}>
+                            <Button onClick={showModalUpdateCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                                Cancel
+                            </Button>
+                            <Button
+                                disabled={btnDisabled}
+                                type="submit"
+                                color={"primary"}
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
+                                Save
+                            </Button>
+                        </div>
+                    </form>
+                </div>
+            </Paper>
+        </div>
     )
 }

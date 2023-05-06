@@ -41,7 +41,7 @@ export const Header = () => {
                     )}
 
                     {isLoginIn ? (
-                        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
+                        <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
                             Logout
                         </Button>
                     ) : (

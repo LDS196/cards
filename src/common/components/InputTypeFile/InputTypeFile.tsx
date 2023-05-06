@@ -1,5 +1,5 @@
-import React, { ChangeEvent, FC, useEffect, useState } from "react"
-import { Button, IconButton, Typography } from "@mui/material"
+import React, { ChangeEvent, FC, useState } from "react"
+import { Button, Typography } from "@mui/material"
 
 import defaultCover from "../../../assets/img/cover.jpg"
 import s from "../../components/InputTypeFile/InputTypeFile.module.scss"
@@ -25,7 +25,7 @@ export const InputTypeFile: FC<PropsType> = (props) => {
                     }
                 })
             } else {
-                alert()
+                alert("Файл слишком большого размера.Max 700 KB")
                 console.error("Error: ", "Файл слишком большого размера.Max 700 KB")
             }
         }

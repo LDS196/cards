@@ -15,7 +15,6 @@ export const CardsActions: FC<PropsType> = ({ card }) => {
     const [isShowDeleteModalCard, setIsShowDeleteModalCard] = useState(false)
 
     const showModalUpdateCard = () => {
-        console.log('up')
         setIsShowUpdateModalCard((prevState) => !prevState)
     }
     const showModalDeleteCard = () => {

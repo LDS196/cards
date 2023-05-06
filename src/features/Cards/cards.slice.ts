@@ -1,12 +1,12 @@
-import { cardsApi, ResponseCards } from "features/Cards/cards.api"
+import { cardsApi, ChangedCardType, NewCardType, ResponseCards, UpdateCardType } from "features/Cards/cards.api"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { RootState } from "app/store"
 
 const getCards = createAppAsyncThunk<ResponseCards, undefined, { state: RootState }>(
     "cards/getCards",
-    async (_, ThunkAPI) => {
-        const { rejectWithValue, getState } = ThunkAPI
+    async (_, thunkAPI) => {
+        const { rejectWithValue, getState } = thunkAPI
         try {
             const { cardsTotalCount, pageCount, page, cardsPack_id } = getState().cards
             const { question, sortBy } = getState().filterCards
@@ -25,6 +25,37 @@ const getCards = createAppAsyncThunk<ResponseCards, undefined, { state: RootStat
         }
     }
 )
+const addNewCard = createAppAsyncThunk<void, NewCardType>("cards/addNewCard", async (arg, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI
+    try {
+        await cardsApi.createCard(arg)
+        dispatch(getCards())
+        return
+    } catch (e: any) {
+        return rejectWithValue(null)
+    }
+})
+const deleteCard = createAppAsyncThunk<void, { id: string }>("cards/deleteCard", async (arg, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI
+    try {
+        await cardsApi.deleteCard(arg.id)
+        dispatch(getCards())
+        return
+    } catch (e: any) {
+        return rejectWithValue(null)
+    }
+})
+const updateCard = createAppAsyncThunk<void, UpdateCardType>("cards/updateCard", async (arg, thunkAPI) => {
+    const { rejectWithValue, dispatch } = thunkAPI
+    try {
+        await cardsApi.updateCard(arg)
+        dispatch(getCards())
+        return
+    } catch (e: any) {
+        return rejectWithValue(null)
+    }
+})
+
 type InitialStateType = ResponseCards & { cardsPack_id: string }
 const initialState: InitialStateType = {
     cards: [],
@@ -51,12 +82,16 @@ const slice = createSlice({
         },
     },
     extraReducers: (builder) => {
-        builder.addCase(getCards.fulfilled, (state, action) => {
-            return { ...state, ...action.payload }
-        })
+        builder
+            .addCase(getCards.fulfilled, (state, action) => {
+                return { ...state, ...action.payload }
+            })
+            .addCase(deleteCard.fulfilled, (state, action) => {})
+            .addCase(updateCard.fulfilled, (state, action) => {})
+            .addCase(addNewCard.fulfilled, (state, action) => {})
     },
 })
 
 export const cardsActions = slice.actions
 export const cardsReducer = slice.reducer
-export const cardsThunks = { getCards }
+export const cardsThunks = { getCards, addNewCard, updateCard, deleteCard }

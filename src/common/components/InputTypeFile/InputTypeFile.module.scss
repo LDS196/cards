@@ -1,0 +1,14 @@
+.cover {
+    .coverImg {
+        img {
+            width: 310px;
+            height: 120px;
+            object-fit: cover;
+        }
+    }
+    .label {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+}

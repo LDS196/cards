@@ -1,11 +1,11 @@
-import React, { FC } from "react"
+import React, { FC, useState } from "react"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
 import { useForm } from "react-hook-form"
-
 import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"
+import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
 
 type PropsType = {
     showModalAddPack: () => void
@@ -15,7 +15,11 @@ type FormType = {
     private: boolean
 }
 export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
+    const [cover, setCover] = useState("")
     const { createPack } = useActions(packsThunks)
+    const setCoverHandler = (value: string) => {
+        setCover(value)
+    }
     const {
         register,
         watch,
@@ -33,6 +37,7 @@ export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
             cardsPack: {
                 name: data.name,
                 private: data.private,
+                deckCover: cover,
             },
         })
             .unwrap()
@@ -56,6 +61,10 @@ export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
                             <CloseIcon />
                         </button>
                     </div>
+                    <div style={{padding:'0 20px'}}>
+                        <InputTypeFile cover={cover} title={"Cover"} nameButton={"Add Cover"} callback={setCoverHandler} />
+                    </div>
+
                     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
                         <TextField
                             {...register("name", {

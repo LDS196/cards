@@ -18,6 +18,7 @@ import s from "./BasicTable.module.scss"
 import { selectSortBy } from "features/Filter/filter.selector"
 import { cardsActions, cardsThunks } from "features/Cards/cards.slice"
 import { useNavigate } from "react-router-dom"
+import defaultCover from "../../assets/img/cover.jpg"
 
 type PropsType = {}
 
@@ -61,6 +62,7 @@ export const BasicTable: FC<PropsType> = () => {
                                 {sortBy.name === "name" && sortBy.sortType === "1" && <ArrowDropUpIcon />}
                             </div>
                         </TableCell>
+                        <TableCell>Cover</TableCell>
                         <TableCell onClick={() => sortItems("cardsCount")} style={{ cursor: "pointer" }}>
                             <div className={s.sortBy}>
                                 <span>Cards</span>
@@ -89,6 +91,9 @@ export const BasicTable: FC<PropsType> = () => {
                                 scope="row"
                             >
                                 {p.name}
+                            </TableCell>
+                            <TableCell>
+                                <img src={p.deckCover ? p.deckCover : defaultCover} alt="Cover" />
                             </TableCell>
                             <TableCell>{p.cardsCount}</TableCell>
                             <TableCell>{p.updated}</TableCell>

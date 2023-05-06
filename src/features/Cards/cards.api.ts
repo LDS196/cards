@@ -46,6 +46,8 @@ export type CardType = {
     created: string
     updated: string
     _id: string
+    answerImg: string
+    questionImg:string
 }
 export type ChangedCardType = {
     newCard?: {}
@@ -69,5 +71,8 @@ export type UpdateCardType = {
     card: {
         _id: string
         question?: string
+        answer?: string
+        answerImg?: string
+        questionImg?: string
     }
 }

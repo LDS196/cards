@@ -3,11 +3,9 @@ import { FC, useState } from "react"
 import s from "../Packs/Packs.module.scss"
 import BorderColorIcon from "@mui/icons-material/BorderColor"
 import DeleteIcon from "@mui/icons-material/Delete"
-import { useSelector } from "react-redux"
-import { selectProfile } from "features/Profile/profile.select"
 import { CardType } from "features/Cards/cards.api"
-import { ModalEditCard } from "common/components/ModalPack/ModalsCards/ModalEditCard"
 import { ModalDeleteCard } from "common/components/ModalPack/ModalsCards/ModalDeleteCard"
+import { ModalEditCard } from "common/components/ModalPack/ModalsCards/ModalEditCard"
 
 type PropsType = {
     card: CardType
@@ -17,9 +15,11 @@ export const CardsActions: FC<PropsType> = ({ card }) => {
     const [isShowDeleteModalCard, setIsShowDeleteModalCard] = useState(false)
 
     const showModalUpdateCard = () => {
+        console.log('up')
         setIsShowUpdateModalCard((prevState) => !prevState)
     }
     const showModalDeleteCard = () => {
+        console.log('del')
         setIsShowDeleteModalCard((prevState) => !prevState)
     }
     return (

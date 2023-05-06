@@ -1,6 +1,7 @@
 .block {
     display: flex;
     justify-content: end;
+    gap: 0 5px;
     li {
         flex: 1 1 33.3%;
     }

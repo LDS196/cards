@@ -16,6 +16,7 @@ import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import { Header } from "common/components/Header"
 import { Cards } from "features/Cards/Cards"
+import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
 
 function App() {
     const isAppInitialized = useSelector(selectIsAppInitialized)

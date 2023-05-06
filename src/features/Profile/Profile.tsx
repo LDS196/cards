@@ -1,24 +1,25 @@
 import React, { ChangeEvent, useState } from "react"
 import { useSelector } from "react-redux"
 import { selectProfile } from "features/Profile/profile.select"
-import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined"
 import s from "./Profile.module.scss"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
 import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import Back from "common/components/Back"
+import { AddAvaInputTypeFile } from "common/components/InputTypeFile/AddAvaInputTypeFile"
 const Profile = () => {
-    const [editMode, setEditMode] = useState(false)
-    const [inputValue, setInputValue] = useState("")
     const userProfile = useSelector(selectProfile)
+    const [editMode, setEditMode] = useState(false)
+    const [inputValue, setInputValue] = useState(userProfile?.name)
     const navigate = useNavigate()
     const { logout, changeProfileData } = useActions(authThunks)
     const logoutHandler = async () => {
         await logout({})
         navigate("/login")
     }
+
     const changeEditMode = () => {
         setEditMode(true)
     }
@@ -26,7 +27,7 @@ const Profile = () => {
         setInputValue(e.currentTarget.value)
     }
     const saveNameHandler = () => {
-        changeProfileData({ name: inputValue, avatar: userProfile ? userProfile.avatar : "" })
+        changeProfileData({ name: inputValue })
             .unwrap()
             .then(() => setEditMode(false))
     }
@@ -49,10 +50,8 @@ const Profile = () => {
                         <Typography component="h1" variant="h5">
                             Personal information
                         </Typography>
-                        <div className={s.avatar}>
-                            <Avatar alt="Avatar-user" src={userProfile?.avatar} sx={{ width: 86, height: 86 }} />
-                            <AddAPhotoOutlinedIcon className={s.icon} onClick={changeEditMode} />
-                        </div>
+
+                        <AddAvaInputTypeFile />
                         {editMode ? (
                             <div className={s.changeName}>
                                 <TextField

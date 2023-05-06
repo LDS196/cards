@@ -8,17 +8,18 @@ import { Paginator } from "common/components/Paginator/Paginator"
 import { selectCards } from "features/Cards/cards.selector"
 import { cardsActions, cardsThunks } from "features/Cards/cards.slice"
 import { selectProfile } from "features/Profile/profile.select"
-import { ModalAddCard } from "common/components/ModalPack/ModalsCards/ModalAddCard"
+
 import Back from "common/components/Back"
 import { TableCards } from "features/Cards/TableCards"
 import { filterCardsActions } from "features/Cards/Filter/filterCards.slice"
 import { selectFilterCards } from "features/Cards/Filter/filterCards.selector"
 import { selectIsLoading } from "app/app.select"
+import { ModalAddCard } from "common/components/ModalPack/ModalsCards/ModalAddCard"
 
 export const Cards = () => {
     const isLoading = useSelector(selectIsLoading)
     const userProfile = useSelector(selectProfile)
-    const { pageCount, page, cardsTotalCount, packUserId, cards } = useSelector(selectCards)
+    const { pageCount, page, cardsTotalCount, packUserId, cards, cardsPack_id } = useSelector(selectCards)
     const { getCards } = useActions(cardsThunks)
     const { changePageSize, changePage } = useActions(cardsActions)
     const [isShow, setIsShow] = useState(false)

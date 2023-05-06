@@ -83,7 +83,7 @@ const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
         }
     }
 )
-const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name: string; avatar: string }>(
+const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name?: string; avatar?: string }>(
     "auth/changeProfileData",
     async (arg, ThunkApi) => {
         const { rejectWithValue } = ThunkApi
@@ -91,8 +91,6 @@ const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name: st
             const res = await authApi.changeProfileData(arg)
             return res.data
         } catch (e: any) {
-            console.log(e.response.data.error)
-
             return rejectWithValue(e)
         }
     }

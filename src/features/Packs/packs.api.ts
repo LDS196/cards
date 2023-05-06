@@ -30,6 +30,7 @@ export type UpdatePackType = {
     cardsPack: {
         name: string
         _id: string
+        deckCover?: string
     }
 }
 export type FilterParamsType = {
@@ -53,6 +54,7 @@ export type PackType = {
     created: string
     updated: string
     user_name: string
+    deckCover?: string
 }
 export type ResponseCardPacks = {
     cardPacks: Array<PackType>

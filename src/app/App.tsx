@@ -16,7 +16,7 @@ import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import { Header } from "common/components/Header"
 import { Cards } from "features/Cards/Cards"
-import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
+import LearnPage from "features/Learn/LearnPage"
 
 function App() {
     const isAppInitialized = useSelector(selectIsAppInitialized)
@@ -44,7 +44,7 @@ function App() {
                 <Route path={"/profile"} element={<Profile />} />
                 <Route path={"/"} element={<Packs />} />
                 <Route path={"/cards"} element={<Cards />} />
-                <Route path={"/learn"} element={<div></div>} />
+                <Route path={"/learn"} element={<LearnPage />} />
                 <Route path={"/404"} element={<div>404</div>} />
             </Routes>
         </div>

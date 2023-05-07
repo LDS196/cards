@@ -5,18 +5,22 @@ import s from "common/components/ModalPack/Modal.module.scss"
 import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"
 import { PackType } from "features/Packs/packs.api"
+import { useSelector } from "react-redux"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    showModalDeletePack: () => void
+    hideModalDeletePack: () => void
     pack: PackType
 }
 
-export const ModalDeletePack: FC<PropsType> = ({ showModalDeletePack, pack }) => {
+export const ModalDeletePack: FC<PropsType> = ({ hideModalDeletePack, pack }) => {
+    const isLoading = useSelector(selectIsLoading)
+
     const { deletePack } = useActions(packsThunks)
     const deletePackHandler = () => {
         deletePack({ id: pack._id })
             .unwrap()
-            .then(() => showModalDeletePack)
+            .then(() => hideModalDeletePack())
     }
     return (
         <div className={s.modalWrapper}>
@@ -32,7 +36,7 @@ export const ModalDeletePack: FC<PropsType> = ({ showModalDeletePack, pack }) =>
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Delete pack
                         </Typography>
-                        <button onClick={showModalDeletePack}>
+                        <button onClick={hideModalDeletePack}>
                             <CloseIcon />
                         </button>
                     </div>
@@ -42,10 +46,16 @@ export const ModalDeletePack: FC<PropsType> = ({ showModalDeletePack, pack }) =>
                             All cards will be deleted.
                         </Typography>
                         <div className={s.modalButtons}>
-                            <Button onClick={showModalDeletePack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button
+                                disabled={isLoading}
+                                onClick={hideModalDeletePack}
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
                                 Cancel
                             </Button>
                             <Button
+                                disabled={isLoading}
                                 onClick={deletePackHandler}
                                 color={"error"}
                                 variant="contained"

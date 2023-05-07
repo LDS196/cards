@@ -31,7 +31,10 @@ const Packs = () => {
     const [isShow, setIsShow] = useState(false)
     const { setSearchValue } = useActions(filterActions)
     const showModalAddPack = () => {
-        setIsShow((prevState) => !prevState)
+        setIsShow(true)
+    }
+    const hideModalAddPack = () => {
+        setIsShow(false)
     }
     const clearFilterHandler = () => {
         clearFilter({
@@ -54,13 +57,6 @@ const Packs = () => {
     if (!isLoginIn) {
         return <Navigate to={"/login"} />
     }
-    if (isLoading) {
-        return (
-            <Typography component="h1" variant="h5">
-                Pack List
-            </Typography>
-        )
-    }
 
     return (
         <div>
@@ -68,7 +64,7 @@ const Packs = () => {
                 <Typography component="h1" variant="h5">
                     Pack List
                 </Typography>
-                <Button onClick={() => showModalAddPack()} variant="contained">
+                <Button disabled={isLoading} onClick={() => showModalAddPack()} variant="contained">
                     Add new pack
                 </Button>
             </div>
@@ -87,7 +83,7 @@ const Packs = () => {
                 changePage={changePage}
                 changePageSize={changePageSize}
             />
-            {isShow && <ModalAddPack showModalAddPack={showModalAddPack} />}
+            {isShow && <ModalAddPack hideModalAddPack={hideModalAddPack} />}
         </div>
     )
 }

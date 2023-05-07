@@ -5,8 +5,10 @@ import { useSelector } from "react-redux"
 import { selectUserId } from "features/Profile/profile.select"
 import { useActions } from "common/hooks/useActions"
 import { filterActions } from "features/Filter/filter.slice"
+import { selectIsLoading } from "app/app.select"
 
 const ChooseAuthor = () => {
+    const isLoading = useSelector(selectIsLoading)
     const userId = useSelector(selectUserId)
     const { setUserId } = useActions(filterActions)
     const [activeButton, setActiveButton] = useState("outlined")
@@ -26,10 +28,18 @@ const ChooseAuthor = () => {
                 Show packs cards
             </Typography>
             <div className={s.buttons}>
-                <Button variant={activeButton === "outlined" ? "outlined" : "contained"} onClick={showMyPacks}>
+                <Button
+                    disabled={isLoading}
+                    variant={activeButton === "outlined" ? "outlined" : "contained"}
+                    onClick={showMyPacks}
+                >
                     My
                 </Button>
-                <Button variant={activeButton === "outlined" ? "contained" : "outlined"} onClick={showAllPacks}>
+                <Button
+                    disabled={isLoading}
+                    variant={activeButton === "outlined" ? "contained" : "outlined"}
+                    onClick={showAllPacks}
+                >
                     All
                 </Button>
             </div>

@@ -1,6 +1,15 @@
 import React, { FC, useState } from "react"
-import { Box, Button, FormControl, InputLabel, MenuItem, Paper, Select,
-    SelectChangeEvent, TextField, Typography,
+import {
+    Box,
+    Button,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    SelectChangeEvent,
+    TextField,
+    Typography,
 } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
@@ -13,13 +22,14 @@ import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
 import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    showModalAddCard: () => void
+    hideModalAddCard: () => void
 }
 type FormType = {
     question: string
     answer: string
 }
-export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
+export const ModalAddCard: FC<PropsType> = ({ hideModalAddCard }) => {
+    const { addNewCard, getCards } = useActions(cardsThunks)
     const { cardsPack_id } = useSelector(selectCards)
     const isLoading = useSelector(selectIsLoading)
     const [type, setType] = useState("text")
@@ -52,7 +62,7 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
         }
         setType1(event.target.value as string)
     }
-    const { addNewCard } = useActions(cardsThunks)
+
     const {
         register,
         resetField,
@@ -76,11 +86,14 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
             },
         })
             .unwrap()
-            .then(() => showModalAddCard())
+            .then(() => getCards({}))
+            .then(() => hideModalAddCard())
     }
     const btnDisabled =
         (type === "text" ? !dirtyFields.question || !isValid : !questionImg) ||
-        (type1 === "text" ? !dirtyFields.answer || !isValid : !answerImg) || isLoading
+        (type1 === "text" ? !dirtyFields.answer || !isValid : !answerImg) ||
+        isLoading
+
     return (
         <div className={s.modalWrapper}>
             <Paper
@@ -95,7 +108,7 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Add new Card
                         </Typography>
-                        <button onClick={showModalAddCard}>
+                        <button onClick={hideModalAddCard}>
                             <CloseIcon />
                         </button>
                     </div>
@@ -171,7 +184,12 @@ export const ModalAddCard: FC<PropsType> = ({ showModalAddCard }) => {
                             />
                         )}
                         <div className={s.modalButtons}>
-                            <Button disabled={isLoading} onClick={showModalAddCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button
+                                disabled={isLoading}
+                                onClick={hideModalAddCard}
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
                                 Cancel
                             </Button>
                             <Button

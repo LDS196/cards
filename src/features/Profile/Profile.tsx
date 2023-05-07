@@ -3,12 +3,12 @@ import { useSelector } from "react-redux"
 import { selectProfile } from "features/Profile/profile.select"
 import s from "./Profile.module.scss"
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined"
-import { Avatar, Box, Button, Container, Paper, TextField, Typography } from "@mui/material"
+import {  Box, Button, Container, Paper, TextField, Typography } from "@mui/material"
 import { useNavigate } from "react-router-dom"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import Back from "common/components/Back"
-import { AddAvaInputTypeFile } from "common/components/InputTypeFile/AddAvaInputTypeFile"
+import { AddImageInputTypeFile } from "common/components/InputTypeFile/AddImageInputTypeFile"
 const Profile = () => {
     const userProfile = useSelector(selectProfile)
     const [editMode, setEditMode] = useState(false)
@@ -31,9 +31,7 @@ const Profile = () => {
             .unwrap()
             .then(() => setEditMode(false))
     }
-    const changeAvatarHandler = () => {
-        changeProfileData({ name: userProfile ? userProfile.name : "", avatar: "NewAvatar" })
-    }
+
     return (
         <div>
             <Back title={"Back to Packs List"} link={""} />
@@ -51,7 +49,7 @@ const Profile = () => {
                             Personal information
                         </Typography>
 
-                        <AddAvaInputTypeFile />
+                        <AddImageInputTypeFile />
                         {editMode ? (
                             <div className={s.changeName}>
                                 <TextField

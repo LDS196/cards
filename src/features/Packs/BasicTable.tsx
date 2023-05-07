@@ -16,7 +16,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
 import s from "./BasicTable.module.scss"
 import { selectSortBy } from "features/Filter/filter.selector"
-import { cardsActions, cardsThunks } from "features/Cards/cards.slice"
+import { cardsActions } from "features/Cards/cards.slice"
 import { useNavigate } from "react-router-dom"
 import defaultCover from "../../assets/img/cover.jpg"
 
@@ -24,7 +24,7 @@ type PropsType = {}
 
 export const BasicTable: FC<PropsType> = () => {
     const { sortPacks } = useActions(filterActions)
-    const { setCardsPack_Id } = useActions(cardsActions)
+    const { setCardsPack_Id, setCurrentPackName } = useActions(cardsActions)
     const sortBy = useSelector(selectSortBy)
     const navigate = useNavigate()
     const packs = useSelector(selectPacks)
@@ -45,7 +45,8 @@ export const BasicTable: FC<PropsType> = () => {
             return
         }
     }
-    const getCardsHandler = (id: string) => {
+    const getCardsHandler = (id: string, name: string) => {
+        setCurrentPackName(name)
         setCardsPack_Id(id)
         navigate("/cards")
     }
@@ -81,19 +82,20 @@ export const BasicTable: FC<PropsType> = () => {
                         <TableCell>Actions</TableCell>
                     </TableRow>
                 </TableHead>
+
                 <TableBody>
                     {packs.map((p) => (
                         <TableRow key={p._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                             <TableCell
                                 style={{ cursor: "pointer" }}
-                                onClick={() => getCardsHandler(p._id)}
+                                onClick={() => getCardsHandler(p._id, p.name)}
                                 component="th"
                                 scope="row"
                             >
                                 {p.name}
                             </TableCell>
                             <TableCell>
-                                <img src={p.deckCover ? p.deckCover : defaultCover} alt="Cover" />
+                                <img className={s.coverTable} src={p.deckCover ? p.deckCover : defaultCover} alt="Cover" />
                             </TableCell>
                             <TableCell>{p.cardsCount}</TableCell>
                             <TableCell>{p.updated}</TableCell>

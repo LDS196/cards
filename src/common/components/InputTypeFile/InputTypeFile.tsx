@@ -3,6 +3,7 @@ import { Button, Typography } from "@mui/material"
 
 import defaultCover from "../../../assets/img/cover.jpg"
 import s from "../../components/InputTypeFile/InputTypeFile.module.scss"
+import { convertFileToBase64 } from "common/utils/conver-file-to-base64"
 
 type PropsType = {
     title: string
@@ -29,15 +30,6 @@ export const InputTypeFile: FC<PropsType> = (props) => {
                 console.error("Error: ", "Файл слишком большого размера.Max 700 KB")
             }
         }
-    }
-
-    const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
-        const reader = new FileReader()
-        reader.onloadend = () => {
-            const file64 = reader.result as string
-            callBack(file64)
-        }
-        reader.readAsDataURL(file)
     }
 
     const errorHandler = () => {

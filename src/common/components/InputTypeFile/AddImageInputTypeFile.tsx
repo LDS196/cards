@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from "react"
+import React, { ChangeEvent, useState } from "react"
 import { Avatar, IconButton } from "@mui/material"
 import { useSelector } from "react-redux"
 import { selectProfile } from "features/Profile/profile.select"
@@ -7,8 +7,9 @@ import s from "features/Profile/Profile.module.scss"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import defaultAva from "../../../assets/img/user.png"
+import { convertFileToBase64 } from "common/utils/conver-file-to-base64"
 
-export const AddAvaInputTypeFile = () => {
+export const AddImageInputTypeFile = () => {
     const { changeProfileData } = useActions(authThunks)
     const userProfile = useSelector(selectProfile)
 
@@ -27,15 +28,6 @@ export const AddAvaInputTypeFile = () => {
                 console.error("Error: ", "Файл слишком большого размера.Max 700 KB")
             }
         }
-    }
-
-    const convertFileToBase64 = (file: File, callBack: (value: string) => void) => {
-        const reader = new FileReader()
-        reader.onloadend = () => {
-            const file64 = reader.result as string
-            callBack(file64)
-        }
-        reader.readAsDataURL(file)
     }
 
     const errorHandler = () => {

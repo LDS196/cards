@@ -1,6 +1,5 @@
 import React, { FC, useState } from "react"
-import { Button, Paper, TextField, Typography,
-} from "@mui/material"
+import { Button, Paper, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
 import s from "common/components/ModalPack/Modal.module.scss"
 import { useForm } from "react-hook-form"
@@ -12,16 +11,15 @@ import { useSelector } from "react-redux"
 import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    showModalUpdateCard: () => void
+    hideModalUpdateCard: () => void
     card: CardType
 }
 type FormType = {
     question: string
     answer: string
 }
-export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
-
-    const { updateCard } = useActions(cardsThunks)
+export const ModalEditCard: FC<PropsType> = ({ hideModalUpdateCard, card }) => {
+    const { updateCard, getCards } = useActions(cardsThunks)
     const isLoading = useSelector(selectIsLoading)
     const typeQuestion = card.questionImg ? "image" : "text"
     const typeAnswer = card.answerImg ? "image" : "text"
@@ -34,10 +32,9 @@ export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
         setQuestionImg(value)
     }
 
-
     const {
         register,
-        formState: { errors,dirtyFields, isValid },
+        formState: { errors, dirtyFields, isValid },
         handleSubmit,
     } = useForm<FormType>({
         defaultValues: {
@@ -57,11 +54,13 @@ export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
             },
         })
             .unwrap()
-            .then(() => showModalUpdateCard())
+            .then(() => getCards({}))
+            .then(() => hideModalUpdateCard())
     }
     const btnDisabled =
-      (typeQuestion === "text" ? (!dirtyFields.question || !isValid) : !questionImg) ||
-      (typeAnswer === "text" ? (!dirtyFields.answer || !isValid ): !answerImg) || isLoading
+        (typeQuestion === "text" ? !dirtyFields.question || !isValid : !questionImg) ||
+        (typeAnswer === "text" ? !dirtyFields.answer || !isValid : !answerImg) ||
+        isLoading
 
     return (
         <div className={s.modalWrapper}>
@@ -77,7 +76,7 @@ export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Edit Card
                         </Typography>
-                        <button onClick={showModalUpdateCard}>
+                        <button onClick={hideModalUpdateCard}>
                             <CloseIcon />
                         </button>
                     </div>
@@ -135,7 +134,7 @@ export const ModalEditCard: FC<PropsType> = ({ showModalUpdateCard, card }) => {
                             />
                         )}
                         <div className={s.modalButtons}>
-                            <Button onClick={showModalUpdateCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button onClick={hideModalUpdateCard} variant="outlined" sx={{ mt: 3, mb: 2 }}>
                                 Cancel
                             </Button>
                             <Button

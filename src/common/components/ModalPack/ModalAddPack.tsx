@@ -6,15 +6,18 @@ import { useForm } from "react-hook-form"
 import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"
 import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
+import { useSelector } from "react-redux"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    showModalAddPack: () => void
+    hideModalAddPack: () => void
 }
 type FormType = {
     name: string
     private: boolean
 }
-export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
+export const ModalAddPack: FC<PropsType> = ({ hideModalAddPack }) => {
+    const isLoading = useSelector(selectIsLoading)
     const [cover, setCover] = useState("")
     const { createPack } = useActions(packsThunks)
     const setCoverHandler = (value: string) => {
@@ -41,7 +44,7 @@ export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
             },
         })
             .unwrap()
-            .then(() => showModalAddPack())
+            .then(() => hideModalAddPack())
     }
     return (
         <div className={s.modalWrapper}>
@@ -57,12 +60,17 @@ export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Add new pack
                         </Typography>
-                        <button onClick={showModalAddPack}>
+                        <button onClick={hideModalAddPack}>
                             <CloseIcon />
                         </button>
                     </div>
-                    <div style={{padding:'0 20px'}}>
-                        <InputTypeFile cover={cover} title={"Cover"} nameButton={"Add Cover"} callback={setCoverHandler} />
+                    <div style={{ padding: "0 20px" }}>
+                        <InputTypeFile
+                            cover={cover}
+                            title={"Cover"}
+                            nameButton={"Add Cover"}
+                            callback={setCoverHandler}
+                        />
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
@@ -90,11 +98,16 @@ export const ModalAddPack: FC<PropsType> = ({ showModalAddPack }) => {
                             label="Private"
                         />
                         <div className={s.modalButtons}>
-                            <Button onClick={showModalAddPack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button
+                                disabled={isLoading}
+                                onClick={hideModalAddPack}
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
                                 Cancel
                             </Button>
                             <Button
-                                disabled={!isDirty || !isValid}
+                                disabled={!isDirty || !isValid || isLoading}
                                 type="submit"
                                 color={"primary"}
                                 variant="contained"

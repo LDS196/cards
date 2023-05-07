@@ -9,28 +9,44 @@ import { useSelector } from "react-redux"
 import { selectProfile } from "features/Profile/profile.select"
 import { ModalEditPack } from "common/components/ModalPack/ModalEditPack"
 import { ModalDeletePack } from "common/components/ModalPack/ModalDeletePack"
+import { useNavigate } from "react-router-dom"
+import { useActions } from "common/hooks/useActions"
+import { cardsActions } from "features/Cards/cards.slice"
 
 type PropsType = {
     pack: PackType
 }
 export const PacksActions: FC<PropsType> = ({ pack }) => {
+    const { setCardsPack_Id, setCurrentPackName } = useActions(cardsActions)
+    const navigate = useNavigate()
     const [isShowUpdateModal, setIsShowUpdateModal] = useState(false)
     const [isShowDeleteModal, setIsShowDeleteModal] = useState(false)
     const cardsCount = pack.cardsCount
     const userProfile = useSelector(selectProfile)
     const showModalUpdatePack = () => {
-        setIsShowUpdateModal((prevState) => !prevState)
+        setIsShowUpdateModal(true)
+    }
+    const hideModalUpdatePack = () => {
+        setIsShowUpdateModal(false)
     }
     const showModalDeletePack = () => {
-        setIsShowDeleteModal((prevState) => !prevState)
+        setIsShowDeleteModal(true)
+    }
+    const hideModalDeletePack = () => {
+        setIsShowDeleteModal(false)
+    }
+    const goToLearn = () => {
+        setCurrentPackName(pack.name)
+        setCardsPack_Id(pack._id)
+        navigate("/learn")
     }
     return (
         <div>
-            {isShowUpdateModal && <ModalEditPack pack={pack} showModalUpdatePack={showModalUpdatePack} />}
-            {isShowDeleteModal && <ModalDeletePack pack={pack} showModalDeletePack={showModalDeletePack} />}
+            {isShowUpdateModal && <ModalEditPack pack={pack} hideModalUpdatePack={hideModalUpdatePack} />}
+            {isShowDeleteModal && <ModalDeletePack pack={pack} hideModalDeletePack={hideModalDeletePack} />}
             <ul className={s.block}>
                 <li>
-                    <button className={s.buttonEdit} disabled={cardsCount === 0}>
+                    <button className={s.buttonEdit} disabled={cardsCount === 0} onClick={goToLearn}>
                         <SchoolIcon fontSize={"small"} />
                     </button>
                 </li>

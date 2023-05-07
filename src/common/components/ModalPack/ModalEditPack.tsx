@@ -8,9 +8,11 @@ import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"
 import { PackType } from "features/Packs/packs.api"
 import { InputTypeFile } from "common/components/InputTypeFile/InputTypeFile"
+import { useSelector } from "react-redux"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    showModalUpdatePack: () => void
+    hideModalUpdatePack: () => void
     pack: PackType
 }
 type FormType = {
@@ -18,7 +20,8 @@ type FormType = {
     private: boolean
 }
 export const ModalEditPack: FC<PropsType> = (props) => {
-    const { showModalUpdatePack, pack } = props
+    const isLoading = useSelector(selectIsLoading)
+    const { hideModalUpdatePack, pack } = props
     const { updatePack } = useActions(packsThunks)
     const [cover, setCover] = useState(pack.deckCover)
     const setCoverHandler = (value: string) => {
@@ -46,7 +49,8 @@ export const ModalEditPack: FC<PropsType> = (props) => {
             },
         })
             .unwrap()
-            .then(() => showModalUpdatePack())
+
+            .then(() => hideModalUpdatePack())
     }
     return (
         <div className={s.modalWrapper}>
@@ -62,7 +66,7 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                         <Typography component="p" sx={{ fontSize: "18px" }}>
                             Edit pack
                         </Typography>
-                        <button onClick={showModalUpdatePack}>
+                        <button onClick={hideModalUpdatePack}>
                             <CloseIcon />
                         </button>
                     </div>
@@ -98,11 +102,16 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                             label="Private"
                         />
                         <div className={s.modalButtons}>
-                            <Button onClick={showModalUpdatePack} variant="outlined" sx={{ mt: 3, mb: 2 }}>
+                            <Button
+                                disabled={isLoading}
+                                onClick={hideModalUpdatePack}
+                                variant="outlined"
+                                sx={{ mt: 3, mb: 2 }}
+                            >
                                 Cancel
                             </Button>
                             <Button
-                                disabled={!isDirty || !isValid}
+                                disabled={!isDirty || !isValid || isLoading}
                                 type="submit"
                                 color={"primary"}
                                 variant="contained"

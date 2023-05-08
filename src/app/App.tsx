@@ -6,7 +6,6 @@ import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
 import Profile from "features/Profile/Profile"
 import Packs from "features/Packs/Packs"
-
 import { useSelector } from "react-redux"
 import { selectIsAppInitialized } from "app/app.select"
 import { CircularProgress } from "@mui/material"

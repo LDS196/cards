@@ -41,17 +41,17 @@ const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, 
 const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", async (_, ThunkApi) => {
     const { rejectWithValue } = ThunkApi
     try {
-        const res = await authApi.logout()
+        await authApi.logout()
         return { isLoginIn: false }
     } catch (e) {
         return rejectWithValue(e)
     }
 })
-const initializeApp = createAppAsyncThunk<{ isLoginIn: boolean }, void>("app/initializeApp", async (arg, ThunkApi) => {
+const initializeApp = createAppAsyncThunk<{ profile:ProfileType,isLoginIn: boolean }, void>("app/initializeApp", async (arg, ThunkApi) => {
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         const res = await authApi.me()
-        return { isLoginIn: true }
+        return { profile: res.data,isLoginIn: true }
     } catch (e) {
         return rejectWithValue(e)
     } finally {
@@ -110,8 +110,9 @@ const slice = createSlice({
             })
             .addCase(initializeApp.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
+                state.profile = action.payload.profile
             })
-            .addCase(forgotPassword.fulfilled, (state, action) => {})
+            .addCase(forgotPassword.fulfilled, () => {})
             .addCase(logout.fulfilled, (state, action) => {
                 state.isLoginIn = action.payload.isLoginIn
             })

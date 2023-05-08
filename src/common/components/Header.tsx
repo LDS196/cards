@@ -32,20 +32,24 @@ export const Header = () => {
                         Cards
                     </Typography>
                     {isLoginIn && (
-                        <NavLink to={"/profile"} style={{ display: "flex", alignItems: "center" }}>
+                      <NavLink to={'/profile'} style={{ display: "flex", alignItems: "center" }}>
                             <Typography variant="h6" component="div" sx={{ mr: 1 }}>
                                 {userProfile?.name}
                             </Typography>
                             <Avatar alt="Avatar-user" src={userProfile?.avatar} sx={{ width: 46, height: 46, mr: 3 }} />
-                        </NavLink>
+                          </NavLink>
                     )}
 
                     {isLoginIn ? (
                         <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
-                            Logout
+                            Log out
                         </Button>
                     ) : (
-                        <NavLink to={"/login"}>Login</NavLink>
+                        <NavLink to={"/login"}>
+                            <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }}>
+                            Log in
+                        </Button>
+                        </NavLink>
                     )}
                 </Toolbar>
             </AppBar>

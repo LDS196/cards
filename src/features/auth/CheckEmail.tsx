@@ -1,7 +1,8 @@
 import React from "react"
-import { Box, Button, Container, CssBaseline, Link, Paper, Typography } from "@mui/material"
+import { Box, Button, Container, CssBaseline, Paper, Typography } from "@mui/material"
 
 import EmailIcon from "@mui/icons-material/Email"
+import { NavLink } from "react-router-dom";
 
 const CheckEmail = () => {
     return (
@@ -21,11 +22,11 @@ const CheckEmail = () => {
                     </Typography>
                     <EmailIcon color={"primary"} />
                     <Typography align={"center"}>We've sent an Email with instructions to example@gmai.com</Typography>
-                    <Link href={"/login"}>
+                  <NavLink to={"/login"}>
                         <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                             Back to login
                         </Button>
-                    </Link>
+                  </NavLink>
                 </Box>
             </Paper>
         </Container>

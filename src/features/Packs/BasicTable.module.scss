@@ -5,5 +5,9 @@
 .coverTable {
     width: 100px;
     height: 50px;
-    object-fit: cover;
+    img {
+        width: 100px;
+        height: 50px;
+        object-fit: cover;
+    }
 }

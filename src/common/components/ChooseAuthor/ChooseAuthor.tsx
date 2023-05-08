@@ -6,12 +6,14 @@ import { selectUserId } from "features/Profile/profile.select"
 import { useActions } from "common/hooks/useActions"
 import { filterActions } from "features/Filter/filter.slice"
 import { selectIsLoading } from "app/app.select"
+import { selectFilter } from "features/Filter/filter.selector"
 
 const ChooseAuthor = () => {
     const isLoading = useSelector(selectIsLoading)
     const userId = useSelector(selectUserId)
+    const { user_id: filterUserId } = useSelector(selectFilter)
     const { setUserId } = useActions(filterActions)
-    const [activeButton, setActiveButton] = useState("outlined")
+    const [activeButton, setActiveButton] = useState(filterUserId ? "contained" : "outlined")
     const showMyPacks = () => {
         if (userId) {
             setUserId(userId)

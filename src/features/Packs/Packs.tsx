@@ -72,7 +72,7 @@ const Packs = () => {
                 <Search changePage={changePage} searchName={packName} setSearchValue={setSearchValue} />
                 <ChooseAuthor />
                 <RangeSlider />
-                <button onClick={clearFilterHandler} style={{ padding: "5px", marginTop: "24px" }}>
+                <button disabled={isLoading} onClick={clearFilterHandler} style={{ padding: "5px", marginTop: "24px" }}>
                     <FilterAltOffIcon color={"primary"} />
                 </button>
             </div>

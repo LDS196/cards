@@ -12,11 +12,13 @@ import { ModalDeletePack } from "common/components/ModalPack/ModalDeletePack"
 import { useNavigate } from "react-router-dom"
 import { useActions } from "common/hooks/useActions"
 import { cardsActions } from "features/Cards/cards.slice"
+import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
     pack: PackType
 }
 export const PacksActions: FC<PropsType> = ({ pack }) => {
+    const isLoading = useSelector(selectIsLoading)
     const { setCardsPack_Id, setCurrentPackName } = useActions(cardsActions)
     const navigate = useNavigate()
     const [isShowUpdateModal, setIsShowUpdateModal] = useState(false)
@@ -46,17 +48,17 @@ export const PacksActions: FC<PropsType> = ({ pack }) => {
             {isShowDeleteModal && <ModalDeletePack pack={pack} hideModalDeletePack={hideModalDeletePack} />}
             <ul className={s.block}>
                 <li>
-                    <button className={s.buttonEdit} disabled={cardsCount === 0} onClick={goToLearn}>
+                    <button className={s.buttonEdit} disabled={cardsCount === 0 || isLoading} onClick={goToLearn}>
                         <SchoolIcon fontSize={"small"} />
                     </button>
                 </li>
                 <li>
-                    <button className={s.buttonEdit} onClick={showModalUpdatePack}>
+                    <button disabled={isLoading} className={s.buttonEdit} onClick={showModalUpdatePack}>
                         {userProfile?._id === pack.user_id && <BorderColorIcon fontSize={"small"} />}
                     </button>
                 </li>
                 <li>
-                    <button className={s.buttonEdit} onClick={showModalDeletePack}>
+                    <button disabled={isLoading} className={s.buttonEdit} onClick={showModalDeletePack}>
                         {userProfile?._id === pack.user_id && <DeleteIcon fontSize={"small"} />}
                     </button>
                 </li>

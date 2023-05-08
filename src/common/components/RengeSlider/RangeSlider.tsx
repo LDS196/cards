@@ -9,8 +9,10 @@ import { useActions } from "common/hooks/useActions"
 import { useDebounce } from "usehooks-ts"
 import { useEffect } from "react"
 import { filterActions } from "features/Filter/filter.slice"
+import { selectIsLoading } from "app/app.select"
 
 export const RangeSlider = () => {
+    const isLoading = useSelector(selectIsLoading)
     const { min, max } = useSelector(selectFilter)
     const { setMinCardsCount, setMaxCardsCount } = useActions(filterActions)
 
@@ -50,6 +52,7 @@ export const RangeSlider = () => {
                 <span className={s.sliderValue}>{value[0]}</span>
                 {value.some((v) => typeof v === "number") && (
                     <Slider
+                        disabled={isLoading}
                         getAriaLabel={() => "Number of cards"}
                         value={value as number[]}
                         onChange={handleChange}

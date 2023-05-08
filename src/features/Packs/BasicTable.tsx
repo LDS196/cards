@@ -29,7 +29,7 @@ export const BasicTable: FC<PropsType> = () => {
     const navigate = useNavigate()
     const packs = useSelector(selectPacks)
     if (!packs.length) {
-        return <div>"No packs with the entered name were found. Change your search options please!"</div>
+        return <div>"No packs were found. Change your search or filter options please!"</div>
     }
     const sortItems = (name: string) => {
         if (sortBy.sortType === "") {
@@ -95,7 +95,9 @@ export const BasicTable: FC<PropsType> = () => {
                                 {p.name}
                             </TableCell>
                             <TableCell>
-                                <img className={s.coverTable} src={p.deckCover ? p.deckCover : defaultCover} alt="Cover" />
+                                <div className={s.coverTable}>
+                                    <img src={p.deckCover ? p.deckCover : defaultCover} alt="Cover" />
+                                </div>
                             </TableCell>
                             <TableCell>{p.cardsCount}</TableCell>
                             <TableCell>{p.updated}</TableCell>

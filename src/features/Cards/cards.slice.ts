@@ -1,4 +1,11 @@
-import { cardsApi, NewCardType, ResponseCards, UpdateCardType } from "features/Cards/cards.api"
+import {
+    cardsApi,
+    GradeType,
+    NewCardType,
+    ResponseCards,
+    ResponseGradeType,
+    UpdateCardType,
+} from "features/Cards/cards.api"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { RootState } from "app/store"
@@ -52,6 +59,15 @@ const updateCard = createAppAsyncThunk<void, UpdateCardType>("cards/updateCard",
         return rejectWithValue(null)
     }
 })
+const updateGrade = createAppAsyncThunk<ResponseGradeType, GradeType>("cards/updateGrade", async (arg, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI
+    try {
+        const res = await cardsApi.updateGrade(arg)
+        return res.data
+    } catch (e: any) {
+        return rejectWithValue(null)
+    }
+})
 
 type InitialStateType = ResponseCards & { cardsPack_id: string; packName: string }
 const initialState: InitialStateType = {
@@ -98,4 +114,4 @@ const slice = createSlice({
 
 export const cardsActions = slice.actions
 export const cardsReducer = slice.reducer
-export const cardsThunks = { getCards, addNewCard, updateCard, deleteCard }
+export const cardsThunks = { getCards, addNewCard, updateCard, deleteCard, updateGrade }

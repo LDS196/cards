@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { Box, Button, Container,Paper, Typography } from "@mui/material"
+import { useSelector } from "react-redux"
+import { Box, Button, Container, Paper, Typography } from "@mui/material"
 import { CardType } from "features/Cards/cards.api"
 import { selectCards } from "features/Cards/cards.selector"
 import { useActions } from "common/hooks/useActions"
-import {  cardsThunks } from "features/Cards/cards.slice"
+import { cardsThunks } from "features/Cards/cards.slice"
 import s from "./LearnPage.module.scss"
 import { selectIsLoading } from "app/app.select"
+import { ControlledRadioButtonsGroup } from "features/Learn/ControlledRadioButtonsGroup"
+import Back from "common/components/Back"
 
-const grades = ["не знал", "забыл", "долго думал", "перепутал", "знал"]
+const grades = ["Didn't know", "Forgot", "A lot of thought", "Confused", "Knew the answer"]
 
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0)
@@ -29,10 +31,9 @@ const LearnPage = () => {
     const isLoading = useSelector(selectIsLoading)
     const [isChecked, setIsChecked] = useState<boolean>(false)
     const [first, setFirst] = useState<boolean>(true)
-    // const [first, setFirst] = useState<boolean>(0);
-    const { cards, packName } = useSelector(selectCards)
+    let { cards, packName } = useSelector(selectCards)
     const { cardsPack_id } = useSelector(selectCards)
-    const { getCards } = useActions(cardsThunks)
+    const { getCards, updateGrade } = useActions(cardsThunks)
     const [card, setCard] = useState<CardType>({
         _id: "fake",
         cardsPack_id: "",
@@ -49,71 +50,102 @@ const LearnPage = () => {
         updated: "",
         user_id: "",
     })
-
-    const dispatch = useDispatch()
+    const [value, setValue] = useState(0)
+    const setValueHandler = (value: number) => {
+        setValue(value)
+    }
     useEffect(() => {
-        console.log("LearnContainer useEffect")
-
         if (first) {
             getCards({})
             setFirst(false)
         }
-
-        console.log("cards", cards)
         if (cards.length > 0) setCard(getCard(cards))
 
-        return () => {
-            console.log("LearnContainer useEffect off")
-        }
-    }, [dispatch, cardsPack_id, cards, first])
+        return () => {}
+    }, [cardsPack_id, cards, first])
 
     const onNext = () => {
         setIsChecked(false)
 
         if (cards.length > 0) {
-            setCard(getCard(cards))
+            updateGrade({ grade: value, card_id: card._id })
+                .unwrap()
+                .then((res) => {
+                    cards.map((card) => {
+                        return card._id === res.updatedGrade.card_id ? { ...card, grade: res.updatedGrade.grade } : card
+                    })
+                })
+                .then(() => setCard(getCard(cards)))
         } else {
         }
     }
 
     return (
-      <>
-          {!isLoading &&  <Container component="main" maxWidth="xs">
-              <Typography style={{textAlign:'center'}} component="h1" variant="h5">
-                  Learn : {packName}
-              </Typography>
-              <Paper elevation={3} style={{ padding: "10px" }}>
-                  <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                  >
+        <>
+            {!isLoading && (
+              <>
+              <Back title={"Back to Pack List"} link={""} />
+                <Container component="main" maxWidth="xs">
 
-                      <div>
-                          <span>Question:</span>
-                          {card.questionImg ? <div className={s.learnImg}><img  src={card.questionImg} alt="" /></div> : <span>{card.question}</span>}
-                      </div>
-                      <div>
-                          <Button onClick={() => setIsChecked(true)}>check</Button>
-                      </div>
-                      {isChecked &&<>
-                          <div>
-                              <span>Answer:</span>
-                              {card.answerImg ? <div className={s.learnImg}><img src={card.answerImg} alt="" /></div> : <span>{card.answer}</span>}
-                          </div>
-                          {grades.map((g, i) => (
-                            <Button variant={"contained"} key={'grade-' + i} onClick={() => {}}>{g}</Button>
-                          ))}
 
-                          <div><Button onClick={onNext}>next</Button></div>
-                      </>}
-                  </Box>
-              </Paper>
-          </Container> }
-      </>
+                    <Typography style={{ textAlign: "center" }} component="h1" variant="h5">
+                        Learn : {packName}
+                    </Typography>
+                    <Paper elevation={3} style={{ padding: "10px" }}>
+                        <Box className={s.box}>
+                            <div>
+                                <span>
+                                    <b>Question:</b>
+                                </span>
+                                {card.questionImg ? (
+                                    <div className={s.learnImg}>
+                                        <img src={card.questionImg} alt="" />
+                                    </div>
+                                ) : (
+                                    <span>{card.question}</span>
+                                )}
+                            </div>
+                            <div className={s.button}>
+                                {!isChecked && (
+                                    <Button
+                                        variant="contained"
+                                        style={{ width: "150px" }}
+                                        onClick={() => setIsChecked(true)}
+                                    >
+                                        Show answer
+                                    </Button>
+                                )}
+                            </div>
 
+                            {isChecked && (
+                                <>
+                                    <div>
+                                        <span>
+                                            <b>Answer:</b>
+                                        </span>
+                                        {card.answerImg ? (
+                                            <div className={s.learnImg}>
+                                                <img src={card.answerImg} alt="" />
+                                            </div>
+                                        ) : (
+                                            <span>{card.answer}</span>
+                                        )}
+                                    </div>
+                                    <ControlledRadioButtonsGroup setValueHandler={setValueHandler} grades={grades} />
+                                    <div className={s.button}>
+                                        <Button disabled={!cards.length} variant="contained" onClick={onNext}>
+                                            next
+                                        </Button>
+                                    </div>
+                                </>
+                            )}
+                        </Box>
+                    </Paper>
+                </Container>
+              </>
+            )
+                  }
+        </>
     )
 }
 

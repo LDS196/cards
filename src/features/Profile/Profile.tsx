@@ -9,7 +9,9 @@ import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import Back from "common/components/Back"
 import { AddImageInputTypeFile } from "common/components/InputTypeFile/AddImageInputTypeFile"
+import { selectIsLoading } from "app/app.select";
 const Profile = () => {
+    const isLoading = useSelector(selectIsLoading)
     const userProfile = useSelector(selectProfile)
     const [editMode, setEditMode] = useState(false)
     const [inputValue, setInputValue] = useState(userProfile?.name)
@@ -60,19 +62,19 @@ const Profile = () => {
                                     placeholder={"Enter your new name"}
                                     onChange={onChangeInputHandler}
                                 />
-                                <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={saveNameHandler}>
+                                <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }} onClick={saveNameHandler}>
                                     Save
                                 </Button>
                             </div>
                         ) : (
                             <Typography className={s.name} component="h6" variant="h6">
                                 {userProfile?.name}
-                                <EditOutlinedIcon sx={{ ml: 2 }} onClick={changeEditMode} />
+                                <EditOutlinedIcon aria-disabled={isLoading} sx={{ ml: 2 }} onClick={changeEditMode} />
                             </Typography>
                         )}
 
                         <Typography sx={{ mt: 2, color: "grey" }}>{userProfile?.email}</Typography>
-                        <Button variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
+                        <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }} onClick={logoutHandler}>
                             Logout
                         </Button>
                     </Box>

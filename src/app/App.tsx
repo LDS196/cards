@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import "app/App.css"
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes } from "react-router-dom";
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
@@ -45,7 +45,7 @@ function App() {
                 <Route path={"/"} element={<Packs />} />
                 <Route path={"/cards"} element={<Cards />} />
                 <Route path={"/learn"} element={<LearnPage />} />
-                <Route path={"/404"} element={<div>404</div>} />
+                <Route path={'*'} element={<Navigate to='/404'/>}/>
             </Routes>
         </div>
     )

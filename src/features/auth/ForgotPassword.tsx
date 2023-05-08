@@ -12,7 +12,7 @@ type UseFormType = {
 }
 export const ForgotPassword = () => {
     const messageToEmail = `<div style="background-color: lime; padding: 15px">password recovery link: 
-<a href="http://localhost:3000/set-new-password/$token$">link</a></div>`
+                            <a href="https://lds196.github.io/cards/#/set-new-password/$token$">link</a></div>`
 
     const { forgotPassword } = useActions(authThunks)
     const navigate = useNavigate()

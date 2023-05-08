@@ -20,7 +20,7 @@ import { useForm } from "react-hook-form"
 import { LoginParamsType } from "features/auth/auth.api"
 import { useActions } from "common/hooks/useActions"
 import { Copyright } from "common/components/Copyright"
-import { Navigate } from "react-router-dom"
+import { Navigate, NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectIsLoginIn } from "features/auth/auth.select"
 import { authThunks } from "../auth.slice"
@@ -127,14 +127,14 @@ export const Login = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <Link href="/forgot-password" variant="body2">
-                                    Forgot password?
-                                </Link>
+                                <NavLink to={"/forgot-password"}>
+                                    <Link variant="body2">Forgot password?</Link>
+                                </NavLink>
                             </Grid>
                             <Grid item>
-                                <Link href="/register" variant="body2">
-                                    {"Don't have an account? Sign Up"}
-                                </Link>
+                                <NavLink to={"/register"}>
+                                    <Link variant="body2">{"Don't have an account? Sign Up"}</Link>
+                                </NavLink>
                             </Grid>
                         </Grid>
                     </Box>

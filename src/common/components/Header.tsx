@@ -2,7 +2,7 @@ import { AppBar, Avatar, Box, Button, IconButton, LinearProgress, Toolbar, Typog
 import { useSelector } from "react-redux"
 import { selectIsLoading } from "app/app.select"
 import StyleIcon from "@mui/icons-material/Style"
-import { Link, useNavigate } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom";
 import React from "react"
 import { authThunks } from "features/auth/auth.slice"
 import { useActions } from "common/hooks/useActions"
@@ -32,12 +32,12 @@ export const Header = () => {
                         Cards
                     </Typography>
                     {isLoginIn && (
-                        <Link to={"/profile"} style={{ display: "flex", alignItems: "center" }}>
+                        <NavLink to={"/profile"} style={{ display: "flex", alignItems: "center" }}>
                             <Typography variant="h6" component="div" sx={{ mr: 1 }}>
                                 {userProfile?.name}
                             </Typography>
                             <Avatar alt="Avatar-user" src={userProfile?.avatar} sx={{ width: 46, height: 46, mr: 3 }} />
-                        </Link>
+                        </NavLink>
                     )}
 
                     {isLoginIn ? (
@@ -45,7 +45,7 @@ export const Header = () => {
                             Logout
                         </Button>
                     ) : (
-                        <Link to={"/login"}>Login</Link>
+                        <NavLink to={"/login"}>Login</NavLink>
                     )}
                 </Toolbar>
             </AppBar>

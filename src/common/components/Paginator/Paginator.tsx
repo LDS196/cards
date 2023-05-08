@@ -18,7 +18,7 @@ export const Paginator: FC<PropsType> = (props) => {
         changePageSize(pageSize)
     }
     return (
-        <div style={{ margin: "15px 0px", textAlign: "center" }}>
+        <div style={{ margin: "15px 0 25px 0", textAlign: "center" }}>
             <Pagination
                 defaultCurrent={page}
                 total={totalCount}

@@ -13,8 +13,6 @@ import { getCard } from "common/utils/get-card-util"
 
 const grades = ["Didn't know", "Forgot", "A lot of thought", "Confused", "Knew the answer"]
 
-
-
 const LearnPage = () => {
     const isLoading = useSelector(selectIsLoading)
     const [isChecked, setIsChecked] = useState<boolean>(false)
@@ -71,68 +69,68 @@ const LearnPage = () => {
     return (
         <>
             {!isLoading && (
-              <>
-              <Back title={"Back to Pack List"} link={""} />
-                <Container component="main" maxWidth="xs">
-
-
-                    <Typography style={{ textAlign: "center" }} component="h1" variant="h5">
-                        Learn : {packName}
-                    </Typography>
-                    <Paper elevation={3} style={{ padding: "10px" }}>
-                        <Box className={s.box}>
-                            <div>
-                                <span>
-                                    <b>Question:</b>
-                                </span>
-                                {card.questionImg ? (
-                                    <div className={s.learnImg}>
-                                        <img src={card.questionImg} alt="" />
-                                    </div>
-                                ) : (
-                                    <span>{card.question}</span>
-                                )}
-                            </div>
-                            <div className={s.button}>
-                                {!isChecked && (
-                                    <Button
-                                        variant="contained"
-                                        style={{ width: "150px" }}
-                                        onClick={() => setIsChecked(true)}
-                                    >
-                                        Show answer
-                                    </Button>
-                                )}
-                            </div>
-
-                            {isChecked && (
-                                <>
-                                    <div>
-                                        <span>
-                                            <b>Answer:</b>
-                                        </span>
-                                        {card.answerImg ? (
-                                            <div className={s.learnImg}>
-                                                <img src={card.answerImg} alt="" />
-                                            </div>
-                                        ) : (
-                                            <span>{card.answer}</span>
-                                        )}
-                                    </div>
-                                    <ControlledRadioButtonsGroup setValueHandler={setValueHandler} grades={grades} />
-                                    <div className={s.button}>
-                                        <Button disabled={!cards.length} variant="contained" onClick={onNext}>
-                                            next
+                <>
+                    <Back title={"Back to Pack List"} link={""} />
+                    <Container component="main" maxWidth="xs">
+                        <Typography style={{ textAlign: "center" }} component="h1" variant="h5">
+                            Learn : {packName}
+                        </Typography>
+                        <Paper elevation={3} style={{ padding: "10px" }}>
+                            <Box className={s.box}>
+                                <div>
+                                    <span>
+                                        <b>Question:</b>
+                                    </span>
+                                    {card.questionImg ? (
+                                        <div className={s.learnImg}>
+                                            <img src={card.questionImg} alt="" />
+                                        </div>
+                                    ) : (
+                                        <span>{card.question}</span>
+                                    )}
+                                </div>
+                                <div className={s.button}>
+                                    {!isChecked && (
+                                        <Button
+                                            variant="contained"
+                                            style={{ width: "150px" }}
+                                            onClick={() => setIsChecked(true)}
+                                        >
+                                            Show answer
                                         </Button>
-                                    </div>
-                                </>
-                            )}
-                        </Box>
-                    </Paper>
-                </Container>
-              </>
-            )
-                  }
+                                    )}
+                                </div>
+
+                                {isChecked && (
+                                    <>
+                                        <div>
+                                            <span>
+                                                <b>Answer:</b>
+                                            </span>
+                                            {card.answerImg ? (
+                                                <div className={s.learnImg}>
+                                                    <img src={card.answerImg} alt="" />
+                                                </div>
+                                            ) : (
+                                                <span>{card.answer}</span>
+                                            )}
+                                        </div>
+                                        <ControlledRadioButtonsGroup
+                                            setValueHandler={setValueHandler}
+                                            grades={grades}
+                                        />
+                                        <div className={s.button}>
+                                            <Button disabled={!cards.length} variant="contained" onClick={onNext}>
+                                                next
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </Box>
+                        </Paper>
+                    </Container>
+                </>
+            )}
         </>
     )
 }

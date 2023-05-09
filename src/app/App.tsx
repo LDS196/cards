@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import "app/App.css"
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
@@ -22,7 +22,7 @@ function App() {
     const isAppInitialized = useSelector(selectIsAppInitialized)
     const { initializeApp } = useActions(authThunks)
     useEffect(() => {
-        initializeApp({})
+            initializeApp({})
     }, [])
     console.log('render app');
     return (
@@ -36,13 +36,13 @@ function App() {
             :<>
                   <Header />
                   <Routes>
+                      <Route path={"/"} element={<Packs />} />
                       <Route path={"/login"} element={<Login />} />
                       <Route path={"/register"} element={<Register />} />
                       <Route path={"/check-email"} element={<CheckEmail />} />
                       <Route path={"/set-new-password/:token"} element={<SetNewPassword />} />
                       <Route path={"/forgot-password"} element={<ForgotPassword />} />
                       <Route path={"/profile"} element={<Profile />} />
-                      <Route path={"/"} element={<Packs />} />
                       <Route path={"/cards/:id"} element={<Cards />} />
                       <Route path={"/learn"} element={<LearnPage />} />
                       <Route path={"*"} element={<Navigate to="/404" />} />

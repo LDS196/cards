@@ -50,12 +50,14 @@ const Packs = () => {
             },
         })
     }
-    console.log(pageCount, page, packName, min, max, user_id, block, sortBy);
+
 
     useEffect(() => {
-        console.log('eff get packs');
-        getPacks({})
-    }, [pageCount, page, packName, min, max, user_id, block, sortBy])
+       if(isLoginIn){
+           getPacks({})
+       }
+       return
+    }, [pageCount, page, packName,min,max,user_id, block, sortBy])
 
     if (!isLoginIn) {
         return <Navigate to={"/login"} />

@@ -55,7 +55,7 @@ const initializeApp = createAppAsyncThunk<{ profile:ProfileType,isLoginIn: boole
     } catch (e) {
         return rejectWithValue(e)
     } finally {
-        dispatch(appActions.setAppInitialized({ isAppInitialized: true }))
+         dispatch(appActions.setAppInitialized({ isAppInitialized: true }))
     }
 })
 const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(

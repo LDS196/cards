@@ -27,6 +27,7 @@ import { authThunks } from "../auth.slice"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 
 export const Login = () => {
+    // debugger
     const [type, setType] = useState("password")
     const isLoginIn = useSelector(selectIsLoginIn)
     const { login } = useActions(authThunks)

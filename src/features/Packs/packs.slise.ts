@@ -93,7 +93,6 @@ export const slice = createSlice({
         builder
             .addCase(getPacks.fulfilled, (state, action) => {
                  return { ...action.payload }
-
             })
             .addCase(createPack.fulfilled, () => {})
             .addCase(deletePack.fulfilled, () => {})

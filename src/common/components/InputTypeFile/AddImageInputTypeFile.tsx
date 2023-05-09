@@ -40,7 +40,7 @@ export const AddImageInputTypeFile = () => {
             <Avatar
                 onError={errorHandler}
                 alt="Avatar-user"
-                src={userProfile?.avatar.length !== 0 ? userProfile?.avatar : defaultAva}
+                src={userProfile?.avatar?.length !== 0 ? userProfile?.avatar : defaultAva}
                 sx={{ width: 106, height: 106 }}
             />
             <label className={s.icon}>

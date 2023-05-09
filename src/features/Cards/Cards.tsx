@@ -15,16 +15,20 @@ import { selectFilterCards } from "features/Cards/Filter/filterCards.selector"
 import { selectIsLoading } from "app/app.select"
 import { ModalAddCard } from "common/components/ModalPack/ModalsCards/ModalAddCard"
 import { clearCardsUtils } from "common/utils/clear-cards-util"
+import { useParams } from "react-router-dom"
 
 export const Cards = () => {
     const isLoading = useSelector(selectIsLoading)
     const userProfile = useSelector(selectProfile)
     const { pageCount, page, cardsTotalCount, packUserId, cards, packName } = useSelector(selectCards)
     const { getCards } = useActions(cardsThunks)
-    const { changePageSize, changePage, clearCards } = useActions(cardsActions)
+    const { changePageSize, changePage, clearCards, setCardsPack_Id } = useActions(cardsActions)
     const [isShow, setIsShow] = useState(false)
     const { setSearchValue, clearFilterCards } = useActions(filterCardsActions)
     const { question, sortBy } = useSelector(selectFilterCards)
+    const params = useParams()
+    console.log(params.id)
+
     const showModalAddCard = () => {
         setIsShow(true)
     }
@@ -35,6 +39,10 @@ export const Cards = () => {
         clearFilterCards({ question: "", sortBy: { name: "", sortType: "" } })
         clearCards(clearCardsUtils())
     }
+    useEffect(() => {
+        setCardsPack_Id(params?.id !== undefined ? params.id : "")
+    }, [])
+
     useEffect(() => {
         getCards({})
     }, [pageCount, page, question, sortBy.name, sortBy.sortType])

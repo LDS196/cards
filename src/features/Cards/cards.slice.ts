@@ -69,7 +69,7 @@ const updateGrade = createAppAsyncThunk<ResponseGradeType, GradeType>("cards/upd
     }
 })
 
-type InitialStateType = ResponseCards & { cardsPack_id: string; packName: string }
+type InitialStateType = ResponseCards & { cardsPack_id: string, packName: string }
 const initialState: InitialStateType = {
     cards: [],
     cardsTotalCount: 0,

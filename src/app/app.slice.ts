@@ -21,7 +21,9 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith("/pending")
                 },
-                (state) => {
+                (state,action) => {
+
+                   if( action.type=== 'app/initializeApp/pending') return
                     state.isLoading = true
                 }
             )
@@ -29,7 +31,7 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith("/rejected")
                 },
-                (state, action) => {
+                (state) => {
                     state.isLoading = false
                 }
             )
@@ -37,7 +39,9 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith("/fulfilled")
                 },
-                (state) => {
+                (state, action) => {
+                    if( action.type=== 'app/initializeApp/fulfilled') return
+
                     state.isLoading = false
                 }
             )

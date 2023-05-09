@@ -30,6 +30,7 @@ const Packs = () => {
     const isLoginIn = useSelector(selectIsLoginIn)
     const [isShow, setIsShow] = useState(false)
     const { setSearchValue } = useActions(filterActions)
+
     const showModalAddPack = () => {
         setIsShow(true)
     }
@@ -49,8 +50,10 @@ const Packs = () => {
             },
         })
     }
+    console.log(pageCount, page, packName, min, max, user_id, block, sortBy);
 
     useEffect(() => {
+        console.log('eff get packs');
         getPacks({})
     }, [pageCount, page, packName, min, max, user_id, block, sortBy])
 

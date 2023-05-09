@@ -92,7 +92,8 @@ export const slice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getPacks.fulfilled, (state, action) => {
-                return { ...action.payload }
+                 return { ...action.payload }
+
             })
             .addCase(createPack.fulfilled, () => {})
             .addCase(deletePack.fulfilled, () => {})

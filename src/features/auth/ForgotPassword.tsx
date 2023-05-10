@@ -5,7 +5,7 @@ import { Box, Button, Container, CssBaseline, Link, Paper, TextField, Typography
 import { Copyright } from "common/components/Copyright"
 import { useActions } from "common/hooks/useActions"
 import { authThunks } from "./auth.slice"
-import { NavLink, useNavigate } from "react-router-dom";
+import {  Link as  RouterLink, useNavigate } from "react-router-dom";
 
 type UseFormType = {
     email: string
@@ -84,11 +84,11 @@ export const ForgotPassword = () => {
                         </Link>
                     </Box>
                     <Typography>Did you remember your passport?</Typography>
-                    <NavLink to={"/login"}>
-                    <Link variant="body2">
+
+                    <Link component={RouterLink} to={"/login"} variant="body2">
                         Try logging in
                     </Link>
-                    </NavLink>
+
                 </Box>
                 <Copyright sx={{ mt: 8, mb: 4 }} />
             </Paper>

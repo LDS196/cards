@@ -10,22 +10,21 @@ import {
     CssBaseline,
     FormControlLabel,
     Grid,
-    Link,
     Paper,
     TextField,
     Typography,
 } from "@mui/material"
-
+import Link from "@mui/material/Link"
 import { useForm } from "react-hook-form"
 import { LoginParamsType } from "features/auth/auth.api"
 import { useActions } from "common/hooks/useActions"
 import { Copyright } from "common/components/Copyright"
-import { Navigate, NavLink } from "react-router-dom"
+import { Navigate, Link as RouterLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectIsLoginIn } from "features/auth/auth.select"
 import { authThunks } from "../auth.slice"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
-import { selectIsAppInitialized } from "app/app.select";
+import { selectIsAppInitialized } from "app/app.select"
 
 export const Login = () => {
     // debugger
@@ -52,9 +51,8 @@ export const Login = () => {
     }
     const onSubmit = (data: LoginParamsType) => login(data)
 
-    if (isLoginIn && isAppInitialized
-    ) {
-       return <Navigate to={"/"}  />
+    if (isLoginIn && isAppInitialized) {
+        return <Navigate to={"/"} />
     }
     return (
         <Container component="main" maxWidth="xs">
@@ -131,14 +129,14 @@ export const Login = () => {
                         </Button>
                         <Grid container>
                             <Grid item xs>
-                                <NavLink to={"/forgot-password"}>
-                                    <Link variant="body2">Forgot password?</Link>
-                                </NavLink>
+                                <Link to={"/forgot-password"} component={RouterLink} variant="body2">
+                                    Forgot password?
+                                </Link>
                             </Grid>
                             <Grid item>
-                                <NavLink to={"/register"}>
-                                    <Link variant="body2">{"Don't have an account? Sign Up"}</Link>
-                                </NavLink>
+                                <Link component={RouterLink} to="/register" variant="body2">
+                                    {"Don't have an account? Sign Up"}
+                                </Link>
                             </Grid>
                         </Grid>
                     </Box>

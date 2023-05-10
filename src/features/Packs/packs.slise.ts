@@ -3,40 +3,36 @@ import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { NewPackType, packsApi, PackType, ResponseCardPacks, UpdatePackType } from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
 
-const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>(
-    "packs/getPacks",
-    async (_, ThunkApi) => {
-        const { rejectWithValue, dispatch, getState } = ThunkApi
-        try {
-            const { packName, max, sortBy, min, user_id, block } = getState().filter
-            const { page, pageCount } = getState().packs
-            const params = {
-                pageCount,
-                page,
-                packName,
-                max,
-                min,
-                user_id,
-                block,
-                sortPacks: sortBy.sortType + sortBy.name,
-            }
-
-            const res = await packsApi.getPacks({ params })
-
-            if (min === undefined && max === undefined) {
-                dispatch(filterActions.setMaxCardsCount(res.data.maxCardsCount))
-                dispatch(filterActions.setMinCardsCount(res.data.minCardsCount))
-            }
-            return res.data
-        } catch (e: any) {
-            console.log(e.response.data.error)
-            return rejectWithValue(null)
+const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>("packs/getPacks", async (_, ThunkApi) => {
+    const { rejectWithValue, dispatch, getState } = ThunkApi
+    try {
+        const { packName, max, sortBy, min, user_id, block } = getState().filter
+        const { page, pageCount } = getState().packs
+        const params = {
+            pageCount,
+            page,
+            packName,
+            max,
+            min,
+            user_id,
+            block,
+            sortPacks: sortBy.sortType + sortBy.name,
         }
+
+        const res = await packsApi.getPacks({ params })
+
+        if (min === undefined && max === undefined) {
+            dispatch(filterActions.setMaxCardsCount(res.data.maxCardsCount))
+            dispatch(filterActions.setMinCardsCount(res.data.minCardsCount))
+        }
+        return res.data
+    } catch (e: any) {
+        console.log(e.response.data.error)
+        return rejectWithValue(null)
     }
-)
-const createPack = createAppAsyncThunk<void, NewPackType>(
-  "packs/createPack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch} = ThunkApi
+})
+const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
 
     try {
         await packsApi.createPack(arg)
@@ -45,9 +41,8 @@ const createPack = createAppAsyncThunk<void, NewPackType>(
         rejectWithValue(null)
     }
 })
-const deletePack = createAppAsyncThunk<void, { id: string }>(
-  "packs/deletePack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch} = ThunkApi
+const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
 
     try {
         await packsApi.deletePack(arg.id)
@@ -56,9 +51,8 @@ const deletePack = createAppAsyncThunk<void, { id: string }>(
         rejectWithValue(null)
     }
 })
-const updatePack = createAppAsyncThunk<void, UpdatePackType>(
-  "packs/updatePack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch} = ThunkApi
+const updatePack = createAppAsyncThunk<void, UpdatePackType>("packs/updatePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch } = ThunkApi
 
     try {
         await packsApi.updatePack(arg)
@@ -98,7 +92,7 @@ export const slice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getPacks.fulfilled, (state, action) => {
-                 return { ...action.payload }
+                return { ...action.payload }
             })
             .addCase(createPack.fulfilled, () => {})
             .addCase(deletePack.fulfilled, () => {})

@@ -19,8 +19,7 @@ const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
         try {
             const res = await authApi.register(arg)
             return res.data
-        } catch (e) {
-            alert(e)
+        } catch (e:any) {
             return rejectWithValue(e)
         }
     }
@@ -51,7 +50,6 @@ const initializeApp = createAppAsyncThunk<{ profile:ProfileType,isLoginIn: boole
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         const res = await authApi.me()
-      console.log("thunk api request");
         return { profile: res.data,isLoginIn: true }
     } catch (e) {
         return rejectWithValue(e)

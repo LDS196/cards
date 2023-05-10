@@ -25,6 +25,7 @@ import { useSelector } from "react-redux"
 import { selectIsLoginIn } from "features/auth/auth.select"
 import { authThunks } from "../auth.slice"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
+import { selectIsAppInitialized } from "app/app.select";
 
 export const Login = () => {
     // debugger
@@ -44,14 +45,16 @@ export const Login = () => {
         },
         mode: "onChange",
     })
+    const isAppInitialized = useSelector(selectIsAppInitialized)
     const changeType = (type: string, setType: (value: string) => void) => {
         if (type === "password") setType("text")
         else setType("password")
     }
     const onSubmit = (data: LoginParamsType) => login(data)
 
-    if (isLoginIn) {
-        return <Navigate to={"/"} />
+    if (isLoginIn && isAppInitialized
+    ) {
+       return <Navigate to={"/"}  />
     }
     return (
         <Container component="main" maxWidth="xs">

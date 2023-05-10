@@ -51,6 +51,7 @@ const initializeApp = createAppAsyncThunk<{ profile:ProfileType,isLoginIn: boole
     const { rejectWithValue, dispatch } = ThunkApi
     try {
         const res = await authApi.me()
+      console.log("thunk api request");
         return { profile: res.data,isLoginIn: true }
     } catch (e) {
         return rejectWithValue(e)

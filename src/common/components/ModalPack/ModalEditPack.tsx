@@ -70,13 +70,14 @@ export const ModalEditPack: FC<PropsType> = (props) => {
                             <CloseIcon />
                         </button>
                     </div>
+                    <div style={{ padding: "0 20px" }}>
                     <InputTypeFile
                         cover={cover}
                         title={"Cover"}
                         nameButton={"Change Cover"}
                         callback={setCoverHandler}
                     />
-
+                    </div>
                     <form onSubmit={handleSubmit(onSubmit)} className={s.form}>
                         <TextField
                             {...register("name", {

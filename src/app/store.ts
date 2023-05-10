@@ -1,23 +1,35 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-
+import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/toolkit";
 import { appReducer } from "app/app.slice"
-
 import { authReducer } from "features/auth/auth.slice"
 import { packsReducer } from "features/Packs/packs.slise"
 import { filterReducer } from "features/Filter/filter.slice"
 import { cardsReducer } from "features/Cards/cards.slice"
 import { filterCardsReducer } from "features/Cards/Filter/filterCards.slice"
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+
+const filterPersistConfig = {
+    key: 'filter',
+    storage,
+}
+const filterCardsPersistConfig = {
+    key: 'filterCards',
+    storage,
+}
+const rootReducer = combineReducers({
+    filter: persistReducer(filterPersistConfig,filterReducer),
+    filterCards: persistReducer(filterCardsPersistConfig,filterCardsReducer),
+    app: appReducer,
+    auth:  authReducer,
+    packs: packsReducer,
+    cards: cardsReducer,
+})
+
 
 export const store = configureStore({
-    reducer: {
-        filter: filterReducer,
-        filterCards: filterCardsReducer,
-        app: appReducer,
-        auth: authReducer,
-        packs: packsReducer,
-        cards: cardsReducer,
-    },
+    reducer: rootReducer
 })
+export const persistor = persistStore(store)
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>

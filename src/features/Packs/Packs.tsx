@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Navigate } from "react-router-dom"
+import { Navigate,} from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectIsLoginIn } from "features/auth/auth.select"
 import { useActions } from "common/hooks/useActions"
@@ -17,17 +17,19 @@ import { ModalAddPack } from "common/components/ModalPack/ModalAddPack"
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import { filterActions } from "features/Filter/filter.slice"
 import { RootState } from "app/store"
-import { selectIsLoading } from "app/app.select"
+import { selectIsAppInitialized, selectIsLoading } from "app/app.select";
+
 
 const Packs = () => {
     const isLoading = useSelector(selectIsLoading)
     const { cardPacksTotalCount, page } = useSelector((state: RootState) => state.packs)
     const { changePageSize, changePage } = useActions(packsActions)
-    const { packName, user_id, block, min, max, sortBy } = useSelector(selectFilter)
+    const { packName, block, min, max, sortBy,user_id } = useSelector(selectFilter)
     const pageCount = useSelector(selectPageCount)
     const { getPacks } = useActions(packsThunks)
     const { clearFilter } = useActions(filterActions)
     const isLoginIn = useSelector(selectIsLoginIn)
+    const isAppInitialized = useSelector(selectIsAppInitialized)
     const [isShow, setIsShow] = useState(false)
     const { setSearchValue } = useActions(filterActions)
 
@@ -53,13 +55,13 @@ const Packs = () => {
 
 
     useEffect(() => {
-       if(isLoginIn){
-           getPacks({})
-       }
-       return
-    }, [pageCount, page, packName,min,max,user_id, block, sortBy])
+        if (isLoginIn) {
+            getPacks({})
+        }
+        return
+    }, [isLoginIn, pageCount, page, packName, min, max, user_id, block, sortBy])
 
-    if (!isLoginIn) {
+    if (!isLoginIn && !isAppInitialized) {
         return <Navigate to={"/login"} />
     }
 
@@ -75,7 +77,7 @@ const Packs = () => {
             </div>
             <div className={s.block}>
                 <Search changePage={changePage} searchName={packName} setSearchValue={setSearchValue} />
-                <ChooseAuthor />
+                <ChooseAuthor/>
                 <RangeSlider />
                 <button disabled={isLoading} onClick={clearFilterHandler} style={{ padding: "5px", marginTop: "24px" }}>
                     <FilterAltOffIcon color={"primary"} />

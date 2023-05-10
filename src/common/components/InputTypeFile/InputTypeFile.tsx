@@ -12,6 +12,7 @@ type PropsType = {
     cover: string | undefined
 }
 export const InputTypeFile: FC<PropsType> = (props) => {
+    const [errorImg,setErrorImg] = useState('')
     const { title, cover, nameButton, callback } = props
 
     const [isAvaBroken, setIsAvaBroken] = useState(false)
@@ -19,15 +20,15 @@ export const InputTypeFile: FC<PropsType> = (props) => {
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
-            if (file.size < 700000) {
+            if (file.size < 100000) {
+                setErrorImg('')
                 convertFileToBase64(file, (file64: string) => {
                     if (!isAvaBroken) {
                         callback(file64)
                     }
                 })
             } else {
-                alert("Файл слишком большого размера.Max 700 KB")
-                console.error("Error: ", "Файл слишком большого размера.Max 700 KB")
+                setErrorImg('Max size of image 100kb.')
             }
         }
     }
@@ -50,6 +51,9 @@ export const InputTypeFile: FC<PropsType> = (props) => {
             </label>
             <div className={s.coverImg}>
                 <img src={cover?.length !== 0 ? cover : defaultCover} onError={errorHandler} alt="ava" />
+            </div>
+            <div className={s.error}>
+                {errorImg}
             </div>
         </div>
     )

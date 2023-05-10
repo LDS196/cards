@@ -2,9 +2,8 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { NewPackType, packsApi, PackType, ResponseCardPacks, UpdatePackType } from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
-import { RootState } from "app/store"
 
-const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined, { state: RootState }>(
+const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>(
     "packs/getPacks",
     async (_, ThunkApi) => {
         const { rejectWithValue, dispatch, getState } = ThunkApi
@@ -21,6 +20,7 @@ const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined, { state: Root
                 block,
                 sortPacks: sortBy.sortType + sortBy.name,
             }
+
             const res = await packsApi.getPacks({ params })
 
             if (min === undefined && max === undefined) {
@@ -34,8 +34,10 @@ const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined, { state: Root
         }
     }
 )
-const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch } = ThunkApi
+const createPack = createAppAsyncThunk<void, NewPackType>(
+  "packs/createPack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch} = ThunkApi
+
     try {
         await packsApi.createPack(arg)
         dispatch(getPacks())
@@ -43,8 +45,10 @@ const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", as
         rejectWithValue(null)
     }
 })
-const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch } = ThunkApi
+const deletePack = createAppAsyncThunk<void, { id: string }>(
+  "packs/deletePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch} = ThunkApi
+
     try {
         await packsApi.deletePack(arg.id)
         dispatch(getPacks())
@@ -52,8 +56,10 @@ const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack",
         rejectWithValue(null)
     }
 })
-const updatePack = createAppAsyncThunk<void, UpdatePackType>("packs/updatePack", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch } = ThunkApi
+const updatePack = createAppAsyncThunk<void, UpdatePackType>(
+  "packs/updatePack", async (arg, ThunkApi) => {
+    const { rejectWithValue, dispatch} = ThunkApi
+
     try {
         await packsApi.updatePack(arg)
         dispatch(getPacks())

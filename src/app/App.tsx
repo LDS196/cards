@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import "app/App.css"
-import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { Navigate, Route, Routes, } from "react-router-dom";
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
@@ -24,7 +24,7 @@ function App() {
     useEffect(() => {
             initializeApp({})
     }, [])
-    console.log('render app');
+
     return (
         <div className="App">
             {!isAppInitialized

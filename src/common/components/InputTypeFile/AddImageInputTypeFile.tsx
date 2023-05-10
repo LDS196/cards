@@ -10,6 +10,8 @@ import defaultAva from "../../../assets/img/user.png"
 import { convertFileToBase64 } from "common/utils/conver-file-to-base64"
 
 export const AddImageInputTypeFile = () => {
+    const [errorImg,setErrorImg] = useState('')
+
     const { changeProfileData } = useActions(authThunks)
     const userProfile = useSelector(selectProfile)
 
@@ -19,13 +21,14 @@ export const AddImageInputTypeFile = () => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
             if (file.size < 100000) {
+                setErrorImg('')
                 convertFileToBase64(file, (file64: string) => {
                     if (!isAvaBroken) {
                         changeProfileData({ avatar: file64 })
                     }
                 })
             } else {
-                console.error("Error: ", "Файл слишком большого размера.Max 700 KB")
+                setErrorImg('Max size of image 100kb.')
             }
         }
     }
@@ -35,7 +38,7 @@ export const AddImageInputTypeFile = () => {
         alert("Кривая картинка")
     }
 
-    return (
+    return (<>
         <div className={s.avatar}>
             <Avatar
                 onError={errorHandler}
@@ -49,6 +52,11 @@ export const AddImageInputTypeFile = () => {
                     <AddAPhotoOutlinedIcon />
                 </IconButton>
             </label>
+
         </div>
+    <div className={s.error}>
+        {errorImg}
+    </div>
+    </>
     )
 }

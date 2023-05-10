@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { FC, useState } from "react";
 import { Button, Typography } from "@mui/material"
 import s from "./ChooseAuthor.module.scss"
 import { useSelector } from "react-redux"
@@ -8,12 +8,16 @@ import { filterActions } from "features/Filter/filter.slice"
 import { selectIsLoading } from "app/app.select"
 import { selectFilter } from "features/Filter/filter.selector"
 
-const ChooseAuthor = () => {
+
+type PropsType={
+
+}
+const ChooseAuthor:FC<PropsType> = () => {
     const isLoading = useSelector(selectIsLoading)
     const userId = useSelector(selectUserId)
     const { user_id: filterUserId } = useSelector(selectFilter)
     const { setUserId } = useActions(filterActions)
-    const [activeButton, setActiveButton] = useState(filterUserId ? "contained" : "outlined")
+    const [activeButton, setActiveButton] = useState(filterUserId.length ? "contained" : "outlined")
     const showMyPacks = () => {
         if (userId) {
             setUserId(userId)

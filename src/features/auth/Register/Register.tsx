@@ -119,7 +119,7 @@ const Register = () => {
                                 name="confirm_password"
                                 label="Confirm password"
                                 type={type1}
-                                id="password"
+                                id="confirm_password"
                             />
                             <RemoveRedEyeIcon className={s.showPassword} onClick={() => changeType(type1, setType1)} />
                         </div>

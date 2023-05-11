@@ -20,7 +20,7 @@ export const ControlledRadioButtonsGroup: FC<PropsType> = ({ grades, setValueHan
             <FormLabel>Rate yourself:</FormLabel>
             <RadioGroup onChange={handleChange}>
                 {grades.map((el, i) => {
-                    return <FormControlLabel value={i + 1} control={<Radio />} label={el} />
+                    return <FormControlLabel key={i} value={i + 1} control={<Radio />} label={el} />
                 })}
             </RadioGroup>
         </FormControl>

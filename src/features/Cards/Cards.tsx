@@ -27,7 +27,6 @@ export const Cards = () => {
     const { setSearchValue, clearFilterCards } = useActions(filterCardsActions)
     const { question, sortBy } = useSelector(selectFilterCards)
     const params = useParams()
-    console.log(params.id)
 
     const showModalAddCard = () => {
         setIsShow(true)

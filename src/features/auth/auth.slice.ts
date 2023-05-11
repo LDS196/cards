@@ -48,11 +48,10 @@ const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", 
 const initializeApp = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, void>(
     "app/initializeApp",
     async (arg, ThunkApi) => {
-        const { rejectWithValue} = ThunkApi
+        const { rejectWithValue } = ThunkApi
         try {
             const res = await authApi.me()
             return { profile: res.data, isLoginIn: true }
-
         } catch (error) {
             return rejectWithValue(handleServerNetworkError(error, false))
         }

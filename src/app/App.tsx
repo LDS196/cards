@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import "app/App.css"
-import {  Route, Routes } from "react-router-dom"
+import { Route, Routes } from "react-router-dom"
 import Register from "features/auth/Register/Register"
 import CheckEmail from "features/auth/CheckEmail"
 import SetNewPassword from "features/auth/SetNewPassword"
@@ -17,16 +17,18 @@ import { Header } from "common/components/Header"
 import { Cards } from "features/Cards/Cards"
 import LearnPage from "common/components/Learn/LearnPage"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
-import NotFound from "common/components/NotFound";
-import { appActions } from "app/app.slice";
+import NotFound from "common/components/NotFound"
+import { appActions } from "app/app.slice"
 
 function App() {
     const isAppInitialized = useSelector(selectIsAppInitialized)
     const { initializeApp } = useActions(authThunks)
     const { setAppInitialized } = useActions(appActions)
     useEffect(() => {
-        initializeApp({}).unwrap().finally(() => {
-               setAppInitialized({ isAppInitialized: true })
+        initializeApp({})
+            .unwrap()
+            .finally(() => {
+                setAppInitialized({ isAppInitialized: true })
             })
     }, [])
 
@@ -50,7 +52,7 @@ function App() {
                         <Route path={"/profile"} element={<Profile />} />
                         <Route path={"/cards/:id"} element={<Cards />} />
                         <Route path={"/learn"} element={<LearnPage />} />
-                        <Route path={"*"} element={<NotFound/>} />
+                        <Route path={"*"} element={<NotFound />} />
                     </Routes>
                 </>
             )}

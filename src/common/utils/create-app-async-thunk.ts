@@ -7,10 +7,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 export const createAppAsyncThunk = createAsyncThunk.withTypes<{
     state: RootState
     dispatch: AppDispatch
-    rejectValue: unknown
+    rejectValue: RejectValueType | null
 }>()
 
 export type RejectValueType = {
-    data: ResponseType
+    data: string
     showGlobalError: boolean
 }
+// export type ResponseErrorType={
+// error:string
+// }

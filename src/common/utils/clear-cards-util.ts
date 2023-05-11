@@ -1,3 +1,4 @@
+// function return object for clearing state after user go out cards page
 export const clearCardsUtils = () => {
     return {
         cards: [],

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { Avatar, Box, Button, Container, CssBaseline, Grid, Link, Paper, TextField, Typography } from "@mui/material"
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined"
 
-import { Link as  RouterLink, useNavigate } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom"
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye"
 
 type UseFormType = {
@@ -137,11 +137,9 @@ const Register = () => {
                         </Button>
                         <Grid container>
                             <Grid item>
-
                                 <Link component={RouterLink} to={"/login"} variant="body2">
                                     {"Already have an account? Sign In"}
                                 </Link>
-
                             </Grid>
                         </Grid>
                     </Box>

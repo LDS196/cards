@@ -2,7 +2,7 @@ import React from "react"
 import { Box, Button, Container, CssBaseline, Paper, Typography } from "@mui/material"
 
 import EmailIcon from "@mui/icons-material/Email"
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"
 
 const CheckEmail = () => {
     return (
@@ -22,11 +22,11 @@ const CheckEmail = () => {
                     </Typography>
                     <EmailIcon color={"primary"} />
                     <Typography align={"center"}>We've sent an Email with instructions to example@gmai.com</Typography>
-                  <NavLink to={"/login"}>
+                    <NavLink to={"/login"}>
                         <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
                             Back to login
                         </Button>
-                  </NavLink>
+                    </NavLink>
                 </Box>
             </Paper>
         </Container>

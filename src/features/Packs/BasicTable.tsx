@@ -24,7 +24,7 @@ type PropsType = {}
 
 export const BasicTable: FC<PropsType> = () => {
     const { sortPacks } = useActions(filterActions)
-    const {  setCurrentPackName } = useActions(cardsActions)
+    const { setCurrentPackName } = useActions(cardsActions)
     const sortBy = useSelector(selectSortBy)
     const navigate = useNavigate()
     const packs = useSelector(selectPacks)

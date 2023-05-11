@@ -9,6 +9,7 @@ import {
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { RootState } from "app/store"
+import { handleServerNetworkError } from "common/utils/handle-server-network-error"
 
 const getCards = createAppAsyncThunk<ResponseCards, undefined, { state: RootState }>(
     "cards/getCards",
@@ -25,10 +26,11 @@ const getCards = createAppAsyncThunk<ResponseCards, undefined, { state: RootStat
                 page,
                 pageCount,
             }
+
             const res = await cardsApi.getCards({ params })
             return res.data
-        } catch (e: any) {
-            return rejectWithValue(null)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )
@@ -37,8 +39,8 @@ const addNewCard = createAppAsyncThunk<void, NewCardType>("cards/addNewCard", as
     try {
         await cardsApi.createCard(arg)
         return
-    } catch (e: any) {
-        return rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const deleteCard = createAppAsyncThunk<void, { id: string }>("cards/deleteCard", async (arg, thunkAPI) => {
@@ -46,8 +48,8 @@ const deleteCard = createAppAsyncThunk<void, { id: string }>("cards/deleteCard",
     try {
         await cardsApi.deleteCard(arg.id)
         return
-    } catch (e: any) {
-        return rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const updateCard = createAppAsyncThunk<void, UpdateCardType>("cards/updateCard", async (arg, thunkAPI) => {
@@ -55,8 +57,8 @@ const updateCard = createAppAsyncThunk<void, UpdateCardType>("cards/updateCard",
     try {
         await cardsApi.updateCard(arg)
         return
-    } catch (e: any) {
-        return rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const updateGrade = createAppAsyncThunk<ResponseGradeType, GradeType>("cards/updateGrade", async (arg, thunkAPI) => {
@@ -64,12 +66,12 @@ const updateGrade = createAppAsyncThunk<ResponseGradeType, GradeType>("cards/upd
     try {
         const res = await cardsApi.updateGrade(arg)
         return res.data
-    } catch (e: any) {
-        return rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 
-type InitialStateType = ResponseCards & { cardsPack_id: string, packName: string }
+type InitialStateType = ResponseCards & { cardsPack_id: string; packName: string }
 const initialState: InitialStateType = {
     cards: [],
     cardsTotalCount: 0,

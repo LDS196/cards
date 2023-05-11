@@ -21,9 +21,8 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith("/pending")
                 },
-                (state,action) => {
-
-                   if( action.type=== 'app/initializeApp/pending') return
+                (state, action) => {
+                    if (action.type === "app/initializeApp/pending") return
                     state.isLoading = true
                 }
             )
@@ -31,7 +30,11 @@ const slice = createSlice({
                 (action) => {
                     return action.type.endsWith("/rejected")
                 },
-                (state) => {
+                (state, action) => {
+                    const { payload } = action
+                    if (payload?.showGlobalError) {
+                        state.error = payload.data
+                    }
                     state.isLoading = false
                 }
             )
@@ -40,7 +43,7 @@ const slice = createSlice({
                     return action.type.endsWith("/fulfilled")
                 },
                 (state, action) => {
-                    if( action.type=== 'app/initializeApp/fulfilled') return
+                    if (action.type === "app/initializeApp/fulfilled") return
 
                     state.isLoading = false
                 }

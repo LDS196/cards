@@ -2,22 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { NewPackType, packsApi, PackType, ResponseCardPacks, UpdatePackType } from "features/Packs/packs.api"
 import { filterActions } from "features/Filter/filter.slice"
+import { handleServerNetworkError } from "common/utils/handle-server-network-error"
 
 const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>("packs/getPacks", async (_, ThunkApi) => {
     const { rejectWithValue, dispatch, getState } = ThunkApi
     try {
         const { packName, max, sortBy, min, user_id, block } = getState().filter
         const { page, pageCount } = getState().packs
-        const params = {
-            pageCount,
-            page,
-            packName,
-            max,
-            min,
-            user_id,
-            block,
-            sortPacks: sortBy.sortType + sortBy.name,
-        }
+        const params = { pageCount, page, packName, max, min, user_id, block, sortPacks: sortBy.sortType + sortBy.name }
 
         const res = await packsApi.getPacks({ params })
 
@@ -26,9 +18,8 @@ const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>("packs/getPac
             dispatch(filterActions.setMinCardsCount(res.data.minCardsCount))
         }
         return res.data
-    } catch (e: any) {
-        console.log(e.response.data.error)
-        return rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", async (arg, ThunkApi) => {
@@ -37,8 +28,8 @@ const createPack = createAppAsyncThunk<void, NewPackType>("packs/createPack", as
     try {
         await packsApi.createPack(arg)
         dispatch(getPacks())
-    } catch (e: any) {
-        rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack", async (arg, ThunkApi) => {
@@ -47,18 +38,17 @@ const deletePack = createAppAsyncThunk<void, { id: string }>("packs/deletePack",
     try {
         await packsApi.deletePack(arg.id)
         dispatch(getPacks())
-    } catch (e: any) {
-        rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 const updatePack = createAppAsyncThunk<void, UpdatePackType>("packs/updatePack", async (arg, ThunkApi) => {
     const { rejectWithValue, dispatch } = ThunkApi
-
     try {
         await packsApi.updatePack(arg)
         dispatch(getPacks())
-    } catch (e: any) {
-        rejectWithValue(null)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
 type InitialStateType = {

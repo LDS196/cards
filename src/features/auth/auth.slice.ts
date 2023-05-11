@@ -11,6 +11,7 @@ import {
 } from "features/auth/auth.api"
 import { ChangeEmailData, InfoResponseType } from "../auth/auth.api"
 import { appActions } from "app/app.slice"
+import { handleServerNetworkError } from "common/utils/handle-server-network-error"
 
 const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
     "auth/register",
@@ -19,8 +20,8 @@ const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
         try {
             const res = await authApi.register(arg)
             return res.data
-        } catch (e:any) {
-            return rejectWithValue(e)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )
@@ -31,9 +32,8 @@ const login = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, 
         try {
             const res = await authApi.login(arg)
             return { profile: res.data, isLoginIn: true }
-        } catch (e: any) {
-            alert(e.response.data.error)
-            return rejectWithValue(e)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )
@@ -42,21 +42,24 @@ const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", 
     try {
         await authApi.logout()
         return { isLoginIn: false }
-    } catch (e) {
-        return rejectWithValue(e)
+    } catch (error) {
+        return rejectWithValue(handleServerNetworkError(error))
     }
 })
-const initializeApp = createAppAsyncThunk<{ profile:ProfileType,isLoginIn: boolean }, void>("app/initializeApp", async (arg, ThunkApi) => {
-    const { rejectWithValue, dispatch } = ThunkApi
-    try {
-        const res = await authApi.me()
-        return { profile: res.data,isLoginIn: true }
-    } catch (e) {
-        return rejectWithValue(e)
-    } finally {
-         dispatch(appActions.setAppInitialized({ isAppInitialized: true }))
+const initializeApp = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, void>(
+    "app/initializeApp",
+    async (arg, ThunkApi) => {
+        const { rejectWithValue, dispatch } = ThunkApi
+        try {
+            const res = await authApi.me()
+            return { profile: res.data, isLoginIn: true }
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error, false))
+        } finally {
+            dispatch(appActions.setAppInitialized({ isAppInitialized: true }))
+        }
     }
-})
+)
 const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(
     "app/forgotPassword",
     async (arg, ThunkApi) => {
@@ -64,8 +67,8 @@ const forgotPassword = createAppAsyncThunk<InfoResponseType, ChangeEmailData>(
         try {
             const res = await authApi.forgotPassword(arg)
             return res.data
-        } catch (e: any) {
-            return rejectWithValue(e)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )
@@ -76,9 +79,8 @@ const setNewPassword = createAppAsyncThunk<InfoResponseType, NewPasswordType>(
         try {
             const res = await authApi.setNewPassword(arg)
             return res.data
-        } catch (e: any) {
-            console.log(e.response.data.error)
-            return rejectWithValue(e)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )
@@ -89,8 +91,8 @@ const changeProfileData = createAppAsyncThunk<ChangeDataResponseType, { name?: s
         try {
             const res = await authApi.changeProfileData(arg)
             return res.data
-        } catch (e: any) {
-            return rejectWithValue(e)
+        } catch (error) {
+            return rejectWithValue(handleServerNetworkError(error))
         }
     }
 )

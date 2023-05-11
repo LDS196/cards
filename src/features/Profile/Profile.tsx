@@ -9,7 +9,7 @@ import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import Back from "common/components/Back"
 import { AddImageInputTypeFile } from "common/components/InputTypeFile/AddImageInputTypeFile"
-import { selectIsLoading } from "app/app.select";
+import { selectIsLoading } from "app/app.select"
 const Profile = () => {
     const isLoading = useSelector(selectIsLoading)
     const userProfile = useSelector(selectProfile)
@@ -62,7 +62,12 @@ const Profile = () => {
                                     placeholder={"Enter your new name"}
                                     onChange={onChangeInputHandler}
                                 />
-                                <Button disabled={isLoading} variant="contained" sx={{ mt: 3, mb: 2 }} onClick={saveNameHandler}>
+                                <Button
+                                    disabled={isLoading}
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                    onClick={saveNameHandler}
+                                >
                                     Save
                                 </Button>
                             </div>

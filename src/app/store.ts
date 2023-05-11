@@ -2,9 +2,9 @@ import { configureStore, ThunkAction, Action, combineReducers } from "@reduxjs/t
 import { appReducer } from "app/app.slice"
 import { authReducer } from "features/auth/auth.slice"
 import { packsReducer } from "features/Packs/packs.slise"
-import { filterReducer } from "features/Filter/filter.slice"
+import { filterReducer } from "features/Packs/FilterPacks/filter.slice"
 import { cardsReducer } from "features/Cards/cards.slice"
-import { filterCardsReducer } from "features/Cards/Filter/filterCards.slice"
+import { filterCardsReducer } from "features/Cards/FilterCards/filterCards.slice"
 import storage from "redux-persist/lib/storage"
 import { persistReducer, persistStore } from "redux-persist"
 

@@ -15,7 +15,7 @@ import { useActions } from "common/hooks/useActions"
 import { authThunks } from "features/auth/auth.slice"
 import { Header } from "common/components/Header"
 import { Cards } from "features/Cards/Cards"
-import LearnPage from "features/Learn/LearnPage"
+import LearnPage from "common/components/Learn/LearnPage"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 
 function App() {

@@ -20,7 +20,7 @@ export const AddImageInputTypeFile = () => {
     const uploadHandler = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files.length) {
             const file = e.target.files[0]
-            if (file.size < 10000000) {
+            if (file.size < 100000) {
                 setErrorImg("")
                 convertFileToBase64(file, (file64: string) => {
                     if (!isAvaBroken) {

@@ -4,9 +4,9 @@ import s from "./ChooseAuthor.module.scss"
 import { useSelector } from "react-redux"
 import { selectUserId } from "features/Profile/profile.select"
 import { useActions } from "common/hooks/useActions"
-import { filterActions } from "features/Filter/filter.slice"
+import { filterActions } from "features/Packs/FilterPacks/filter.slice"
 import { selectIsLoading } from "app/app.select"
-import { selectFilter } from "features/Filter/filter.selector"
+import { selectFilter } from "features/Packs/FilterPacks/filter.selector"
 
 type PropsType = {}
 const ChooseAuthor: FC<PropsType> = () => {

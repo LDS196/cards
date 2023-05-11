@@ -4,11 +4,11 @@ import Slider from "@mui/material/Slider"
 import { Typography } from "@mui/material"
 import s from "./RangeSlider.module.scss"
 import { useSelector } from "react-redux"
-import { selectFilter } from "features/Filter/filter.selector"
+import { selectFilter } from "features/Packs/FilterPacks/filter.selector"
 import { useActions } from "common/hooks/useActions"
 import { useDebounce } from "usehooks-ts"
 import { useEffect } from "react"
-import { filterActions } from "features/Filter/filter.slice"
+import { filterActions } from "features/Packs/FilterPacks/filter.slice"
 import { selectIsLoading } from "app/app.select"
 
 export const RangeSlider = () => {

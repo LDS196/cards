@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { createAppAsyncThunk } from "common/utils/create-app-async-thunk"
 import { NewPackType, packsApi, PackType, ResponseCardPacks, UpdatePackType } from "features/Packs/packs.api"
-import { filterActions } from "features/Filter/filter.slice"
+import { filterActions } from "features/Packs/FilterPacks/filter.slice"
 import { handleServerNetworkError } from "common/utils/handle-server-network-error"
 
 const getPacks = createAppAsyncThunk<ResponseCardPacks, undefined>("packs/getPacks", async (_, ThunkApi) => {

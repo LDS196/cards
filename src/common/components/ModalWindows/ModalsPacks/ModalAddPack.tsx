@@ -1,7 +1,7 @@
 import React, { FC, useState } from "react"
 import { Button, Checkbox, FormControlLabel, Paper, TextField, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
-import s from "common/components/ModalPack/Modal.module.scss"
+import s from "common/components/ModalWindows/Modal.module.scss"
 import { useForm } from "react-hook-form"
 import { useActions } from "common/hooks/useActions"
 import { packsThunks } from "features/Packs/packs.slise"

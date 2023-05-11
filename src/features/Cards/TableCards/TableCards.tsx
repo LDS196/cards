@@ -11,13 +11,13 @@ import { FC } from "react"
 import { useActions } from "common/hooks/useActions"
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown"
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp"
-import s from "./TableCards.module.scss"
+import s from "features/Cards/TableCards/TableCards.module.scss"
 import { Rating } from "@mui/material"
 import { selectCards } from "features/Cards/cards.selector"
 import { selectProfile } from "features/Profile/profile.select"
-import { CardsActions } from "features/Cards/CardsActions"
-import { filterCardsActions } from "features/Cards/Filter/filterCards.slice"
-import { selectFilterCards } from "features/Cards/Filter/filterCards.selector"
+import { CardsActions } from "features/Cards/ActionCards/CardsActions"
+import { filterCardsActions } from "features/Cards/FilterCards/filterCards.slice"
+import { selectFilterCards } from "features/Cards/FilterCards/filterCards.selector"
 
 type PropsType = {}
 

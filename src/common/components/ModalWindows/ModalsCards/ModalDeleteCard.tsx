@@ -1,54 +1,48 @@
 import React, { FC } from "react"
 import { Button, Paper, Typography } from "@mui/material"
 import CloseIcon from "@mui/icons-material/Close"
-import s from "common/components/ModalPack/Modal.module.scss"
+import s from "common/components/ModalWindows/Modal.module.scss"
 import { useActions } from "common/hooks/useActions"
-import { packsThunks } from "features/Packs/packs.slise"
-import { PackType } from "features/Packs/packs.api"
+import { CardType } from "features/Cards/cards.api"
+import { cardsThunks } from "features/Cards/cards.slice"
 import { useSelector } from "react-redux"
 import { selectIsLoading } from "app/app.select"
 
 type PropsType = {
-    hideModalDeletePack: () => void
-    pack: PackType
+    hideModalDeleteCard: () => void
+    card: CardType
 }
 
-export const ModalDeletePack: FC<PropsType> = ({ hideModalDeletePack, pack }) => {
+export const ModalDeleteCard: FC<PropsType> = ({ hideModalDeleteCard, card }) => {
     const isLoading = useSelector(selectIsLoading)
 
-    const { deletePack } = useActions(packsThunks)
+    const { deleteCard, getCards } = useActions(cardsThunks)
     const deletePackHandler = () => {
-        deletePack({ id: pack._id })
+        deleteCard({ id: card._id })
             .unwrap()
-            .then(() => hideModalDeletePack())
+            .then(() => getCards({}))
+            .then(() => hideModalDeleteCard())
     }
     return (
         <div className={s.modalWrapper}>
-            <Paper
-                elevation={3}
-                sx={{
-                    maxWidth: "350px",
-                    width: "100%",
-                }}
-            >
+            <Paper elevation={3} sx={{ maxWidth: "350px", width: "100%" }}>
                 <div className={s.modal}>
                     <div className={s.title}>
                         <Typography component="p" sx={{ fontSize: "18px" }}>
-                            Delete pack
+                            Delete Card
                         </Typography>
-                        <button onClick={hideModalDeletePack}>
+                        <button onClick={hideModalDeleteCard}>
                             <CloseIcon />
                         </button>
                     </div>
                     <form className={s.form}>
                         <Typography component="p" sx={{ fontSize: "16px" }}>
-                            Do you really want to remove pack <b>{pack.name}?</b>
-                            All cards will be deleted.
+                            Do you really want to remove card?
                         </Typography>
                         <div className={s.modalButtons}>
                             <Button
                                 disabled={isLoading}
-                                onClick={hideModalDeletePack}
+                                onClick={hideModalDeleteCard}
                                 variant="outlined"
                                 sx={{ mt: 3, mb: 2 }}
                             >

@@ -10,7 +10,6 @@ import {
     RegisterResponseType,
 } from "features/auth/auth.api"
 import { ChangeEmailData, InfoResponseType } from "../auth/auth.api"
-import { appActions } from "app/app.slice"
 import { handleServerNetworkError } from "common/utils/handle-server-network-error"
 
 const register = createAppAsyncThunk<RegisterResponseType, RegisterParamsType>(
@@ -49,14 +48,13 @@ const logout = createAppAsyncThunk<{ isLoginIn: boolean }, void>("auth/logout", 
 const initializeApp = createAppAsyncThunk<{ profile: ProfileType; isLoginIn: boolean }, void>(
     "app/initializeApp",
     async (arg, ThunkApi) => {
-        const { rejectWithValue, dispatch } = ThunkApi
+        const { rejectWithValue} = ThunkApi
         try {
             const res = await authApi.me()
             return { profile: res.data, isLoginIn: true }
+
         } catch (error) {
             return rejectWithValue(handleServerNetworkError(error, false))
-        } finally {
-            dispatch(appActions.setAppInitialized({ isAppInitialized: true }))
         }
     }
 )

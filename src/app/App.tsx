@@ -18,12 +18,16 @@ import { Cards } from "features/Cards/Cards"
 import LearnPage from "common/components/Learn/LearnPage"
 import { ErrorSnackbar } from "common/components/ErrorSnackbar/ErrorSnackbar"
 import NotFound from "common/components/NotFound";
+import { appActions } from "app/app.slice";
 
 function App() {
     const isAppInitialized = useSelector(selectIsAppInitialized)
     const { initializeApp } = useActions(authThunks)
+    const { setAppInitialized } = useActions(appActions)
     useEffect(() => {
-        initializeApp({})
+        initializeApp({}).unwrap().finally(() => {
+               setAppInitialized({ isAppInitialized: true })
+            })
     }, [])
 
     return (

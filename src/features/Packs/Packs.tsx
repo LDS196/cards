@@ -17,7 +17,7 @@ import { ModalAddPack } from "common/components/ModalWindows/ModalsPacks/ModalAd
 import FilterAltOffIcon from "@mui/icons-material/FilterAltOff"
 import { filterActions } from "features/Packs/FilterPacks/filter.slice"
 import { RootState } from "app/store"
-import { selectIsAppInitialized, selectIsLoading } from "app/app.select"
+import { selectIsLoading } from "app/app.select"
 
 const Packs = () => {
     const isLoading = useSelector(selectIsLoading)
@@ -28,7 +28,6 @@ const Packs = () => {
     const { getPacks } = useActions(packsThunks)
     const { clearFilter } = useActions(filterActions)
     const isLoginIn = useSelector(selectIsLoginIn)
-    const isAppInitialized = useSelector(selectIsAppInitialized)
     const [isShow, setIsShow] = useState(false)
     const { setSearchValue } = useActions(filterActions)
 
@@ -59,7 +58,7 @@ const Packs = () => {
         return
     }, [isLoginIn, pageCount, page, packName, min, max, user_id, block, sortBy])
 
-    if (!isLoginIn && !isAppInitialized) {
+    if (!isLoginIn) {
         return <Navigate to={"/login"} />
     }
 

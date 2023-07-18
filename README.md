@@ -1,4 +1,4 @@
-:seedling: <a href="https://lds196.github.io/1-todolist/" target="_blank">Flash Cards</a>
+:seedling: <a href="https://lds196.github.io/cards/" target="_blank">Flash Cards</a>
 ---
 это приложение для тренировки памяти с помощью карточек, которые можно использовать для запоминания слов, терминов и т. д. Пользователи могут создавать карточки, редактировать и тестировать их.
 

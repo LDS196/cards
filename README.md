@@ -4,7 +4,7 @@
 
 ## Технологии
 ![React](https://img.shields.io/badge/-React-61daf8?logo=react&logoColor=black)
-![REDUX](https://img.shields.io/badge/-Redux-yellow)
+![Redux Toolkit](https://img.shields.io/badge/-Redux Toolkit-yellow)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-blue)
 ![ReactHookForm](https://img.shields.io/badge/-ReactHookForm-pink)
 

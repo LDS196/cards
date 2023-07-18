@@ -7,7 +7,6 @@
 ![REDUX](https://img.shields.io/badge/-Redux-yellow)
 ![TypeScript](https://img.shields.io/badge/-TypeScript-blue)
 ![ReactHookForm](https://img.shields.io/badge/-ReactHookForm-pink)
-![Storybook](https://img.shields.io/badge/-Storybook-red)
 
 ![Jest](https://img.shields.io/badge/-Jest-green)
 ![MaterialUI](https://img.shields.io/badge/-MaterialUI-blue)
@@ -17,8 +16,8 @@
 
 ![Webpack](https://img.shields.io/badge/-Webpack-99d6f8?logo=webpack&logoColor=black)
 ![API](https://img.shields.io/badge/-Api-yellow)
-![Axios](https://img.shields.io/badge/-Axios-yellow)
-![Figma](https://img.shields.io/badge/-Figma-yellow)
+![Axios](https://img.shields.io/badge/-Axios-green)
+![Figma](https://img.shields.io/badge/-Figma-pink)
 
 Clone repositories:
 ```
